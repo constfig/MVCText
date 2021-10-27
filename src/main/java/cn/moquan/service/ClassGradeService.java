@@ -71,7 +71,7 @@ public class ClassGradeService {
             studentInfo.setGradeName("");
             studentInfo.setClassName("");
             // 开始更新
-            if (studentService.updateStudent(studentInfo, studentIdList).getState()
+            if (studentService.updateStudent(studentInfo, studentIdList).getStatus()
                     == StatusNumber.FAILED) {
                 throw new RollBackException("学生班级信息重置失败",
                         new CommonResponseBody(StatusNumber.FAILED,

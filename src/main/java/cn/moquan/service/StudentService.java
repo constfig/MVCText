@@ -55,7 +55,7 @@ public class StudentService {
 
         CommonResponseBody responseBody = deleteLinkedStudentTeacher(studentIdList, true);
 
-        if (responseBody.getState() == StatusNumber.SUCCESS && !studentDao.deleteStudents(studentIdList)) {
+        if (responseBody.getStatus() == StatusNumber.SUCCESS && !studentDao.deleteStudents(studentIdList)) {
             throw new RollBackException("学生删除失败", new CommonResponseBody(StatusNumber.FAILED, "删除失败"));
         }
 
@@ -202,7 +202,7 @@ public class StudentService {
     }
 
     public boolean updateStudentCommon(Student newInfo, Student oldInfo) {
-        return studentDao.updateCommon(newInfo, oldInfo);
+        return studentDao.updateStudentCommon(newInfo, oldInfo);
     }
 
 }

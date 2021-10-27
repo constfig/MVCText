@@ -132,6 +132,7 @@
         delete from teach_course_info
         <where>
             <if test="schoolName != null">school_name = #{schoolName}</if>
+            <if test="classroomRealId != null">AND classroom_real_id = #{classroomRealId}</if>
             <if test="teacherName != null">AND teacher_name = #{teacherName}</if>
             <if test="courseName != null">AND course_name = #{courseName}</if>
             <if test="gradeName != null">AND grade_name = #{gradeName}</if>

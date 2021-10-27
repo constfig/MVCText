@@ -8,39 +8,44 @@ package cn.moquan.util;
  */
 
 public class CommonResponseBody {
-    private int state;
+    private int status;
     private String message;
     private Object data;
 
     public CommonResponseBody() {
     }
 
-    public CommonResponseBody(int state) {
-        this.state = state;
+    public CommonResponseBody(int status) {
+        this.status = status;
     }
 
-    public CommonResponseBody(int state, String message) {
-        this.state = state;
-        this.message = message;
-    }
-
-    public CommonResponseBody(int state, Object data) {
-        this.state = state;
+    public CommonResponseBody(int status, Object data) {
+        this.status = status;
         this.data = data;
     }
 
-    public CommonResponseBody(int state, String message, Object data) {
-        this.state = state;
+    public CommonResponseBody(String message, Object data) {
         this.message = message;
         this.data = data;
     }
 
-    public int getState() {
-        return state;
+    public CommonResponseBody(int status, String message) {
+        this.status = status;
+        this.message = message;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public CommonResponseBody(int status, String message, Object data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getMessage() {
@@ -62,7 +67,7 @@ public class CommonResponseBody {
     @Override
     public String toString() {
         return "CommonResponseBody{" +
-                "state=" + state +
+                "status=" + status +
                 ", message='" + message + '\'' +
                 ", data=" + data +
                 '}';

@@ -88,9 +88,9 @@
         </set>
         <where>
             <if test="targetInfo.schoolName">school_name = #{targetInfo.schoolName}</if>
-            <if test="targetInfo.classroomRealId">classroom_real_id = #{targetInfo.classroomRealId}</if>
-            <if test="targetInfo.gradeName">grade_name = #{targetInfo.gradeName}</if>
-            <if test="targetInfo.className">class_name = #{targetInfo.className}</if>
+            <if test="targetInfo.classroomRealId"> AND classroom_real_id = #{targetInfo.classroomRealId}</if>
+            <if test="targetInfo.gradeName">AND grade_name = #{targetInfo.gradeName}</if>
+            <if test="targetInfo.className">AND class_name = #{targetInfo.className}</if>
         </where>
     </update>
 

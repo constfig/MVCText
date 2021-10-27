@@ -3,6 +3,7 @@ package cn.moquan.service;
 import cn.moquan.bean.Classroom;
 import cn.moquan.bean.ClassGrade;
 import cn.moquan.bean.Student;
+import cn.moquan.bean.TeachCourseInfo;
 import cn.moquan.dao.ClassroomDao;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.StatusNumber;
@@ -27,6 +28,8 @@ public class ClassroomService {
     ClassGradeService classGradeService;
     @Autowired
     StudentService studentService;
+    @Autowired
+    TeachCourseInfoService teachCourseInfoService;
 
 
     public List<Classroom> getClassroom(Classroom info) {
@@ -62,6 +65,10 @@ public class ClassroomService {
             // 获取教室信息
             Classroom oldInfo = getClassroom(new Classroom(id)).get(0);
 
+            if("".equals(oldInfo.getGradeName()) || "".equals(oldInfo.getClassName())) {
+                continue;
+            }
+
             // 更新学生信息
             Student newStudentInfo = new Student("");
             Student targetStudent = new Student(oldInfo.getGradeName(),
@@ -81,6 +88,11 @@ public class ClassroomService {
                     "删除教室信息时, 更新班级信息失败, 请检查!"
             );
 
+            // 删除授课信息
+            TeachCourseInfo teachCourseInfo = new TeachCourseInfo();
+            teachCourseInfo.setClassroomRealId(oldInfo.getRealId());
+            teachCourseInfo.setSchoolName(oldInfo.getSchoolName());
+            teachCourseInfoService.deleteTeachCourseUseInfo(teachCourseInfo);
         }
 
         ThrowExceptionUtil.throwRollBackException(
