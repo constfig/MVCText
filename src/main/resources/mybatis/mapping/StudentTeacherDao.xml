@@ -1,0 +1,114 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.moquan.dao.StudentTeacherDao">
+
+    <!--
+        private int id;
+        private int studentId;
+        private int teacherId;
+        private String schoolName;
+    -->
+
+
+    <!--
+        id	INT	PRIMARY KEY AUTO_INCREMENT	系统自增主键
+        student_id	INT		学生号(系统分配主键)
+        teacher_id	INT		教师号(系统分配主键)
+        school_name	VARCHAR(30)	NOT NULL DEFAULT "",	学校名
+    -->
+
+    <resultMap id="studentTeacher" type="cn.moquan.bean.StudentTeacher">
+        <id property="id" column="id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="schoolName" column="school_name"/>
+    </resultMap>
+
+    <select id="getStudentTeacher" resultMap="studentTeacher">
+        select * from student_teacher
+        <where>
+            <if test="id != 0">id = #{id}</if>
+            <if test="schoolName != null &amp;&amp; schoolName != &quot;&quot;">AND school_name = #{schoolName}</if>
+            <if test="teacherId != null &amp;&amp; teacherId != &quot;&quot;">AND teacher_id = #{teacherId}</if>
+            <if test="studentId != null &amp;&amp; studentId != &quot;&quot;">AND student_id = #{studentId}</if>
+        </where>
+    </select>
+
+    <!--
+        insertOnceStudentTeacher
+    -->
+
+    <insert id="insertOnceStudentTeacher">
+        insert into student_teacher(school_name, student_id, teacher_id)
+        values(#{schoolName}, #{studentId}, #{teacherId})
+    </insert>
+
+    <insert id="insertStudentTeacher">
+        insert into student_teacher(school_name, student_id, teacher_id)
+        values
+        <if test="info.studentId == 0">
+            <foreach collection="idList" separator=","
+                     index="index" item="id">
+                (#{info.schoolName},
+                #{id},
+                #{info.teacherId})
+            </foreach>
+        </if>
+        <if test="info.teacherId == 0">
+            <foreach collection="idList" separator=","
+                     index="index" item="id">
+                (#{info.schoolName},
+                #{info.studentId},
+                #{id})
+            </foreach>
+        </if>
+    </insert>
+
+    <delete id="deleteStudentTeacherById">
+        delete from student_teacher
+        where id in(
+            <foreach collection="list" index="index" item="id" separator=",">
+                #{id}
+            </foreach>
+            )
+    </delete>
+
+    <delete id="deleteStudentTeacher">
+        delete from student_teacher
+        where school_name = #{info.schoolName}
+            <if test="info.studentId == 0">
+                AND teacher_id = #{info.teacherId}
+                <if test="idList != null">
+                    AND student_id in(
+                    <foreach collection="idList" index="index" item="id" separator=",">
+                        #{id}
+                    </foreach>
+                    )
+                </if>
+            </if>
+            <if test="info.teacherId == 0">
+                AND student_id = #{info.studentId}
+                <if test="idList != null">
+                    AND teacher_id in(
+                    <foreach collection="idList" index="index" item="id" separator=",">
+                        #{id}
+                    </foreach>
+                    )
+                </if>
+            </if>
+    </delete>
+
+    <delete id="deleteStudentTeacherUseInfo">
+        delete from student_teacher
+        where school_name = #{schoolName}
+            <if test="teacherId != 0">
+                And teacher_id = #{teacherId}
+            </if>
+            <if test="studentId != 0">
+                And studente_id = #{studenteId}
+            </if>
+    </delete>
+
+</mapper>

@@ -1,0 +1,111 @@
+package cn.moquan.controller;
+
+import cn.moquan.bean.BeanUtil;
+import cn.moquan.bean.teacher.Teacher;
+import cn.moquan.bean.teacher.TeacherUtil;
+import cn.moquan.service.TeacherService;
+import cn.moquan.util.CommonResponseBody;
+import cn.moquan.util.RollBackException;
+import cn.moquan.util.StateNumber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * describe
+ *
+ * @author wangyuanhong
+ * @date 2021/10/20
+ */
+@Controller
+@RequestMapping("/teacher")
+public class TeacherController {
+
+    @Autowired
+    TeacherService teacherService;
+
+    @ResponseBody
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public CommonResponseBody getTeacherById(@PathVariable int id){
+
+        CommonResponseBody responseBody;
+
+        Teacher teacherById = teacherService.getTeacherById(id);
+
+        if(teacherById != null){
+            responseBody = new CommonResponseBody(StateNumber.SUCCESS, teacherById);
+        }else{
+            responseBody = new CommonResponseBody(StateNumber.FAILED);
+        }
+
+        return responseBody;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
+    public CommonResponseBody getTeacher(@RequestBody Teacher teacherInfo){
+
+        CommonResponseBody responseBody;
+        List<Teacher> teacher = teacherService.getTeacher(teacherInfo);
+
+        if(teacher != null){
+            responseBody = new CommonResponseBody(StateNumber.SUCCESS, teacher);
+        }else{
+            responseBody = new CommonResponseBody(StateNumber.FAILED);
+        }
+
+        return responseBody;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public CommonResponseBody insertTeacher(@RequestBody TeacherUtil teacherInfoList){
+
+        CommonResponseBody responseBody;
+
+        if (teacherService.insertTeacher(teacherInfoList.getTeacherInfoList())){
+            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+        }else{
+            responseBody = new CommonResponseBody(StateNumber.FAILED);
+        }
+
+        return responseBody;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public CommonResponseBody updateTeacher(@RequestBody BeanUtil<Teacher> teacherUtil){
+
+        System.out.println(teacherUtil);
+
+        CommonResponseBody responseBody;
+
+        try {
+            responseBody = teacherService.updateTeacher(
+                    teacherUtil.getInfo(), teacherUtil.getIdList());
+        } catch (RollBackException e) {
+            e.printStackTrace();
+            responseBody = e.getErrorInfo();
+        }
+
+        return responseBody;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public CommonResponseBody deleteTeacherById(@RequestBody TeacherUtil teacherUtil){
+    
+        CommonResponseBody responseBody;
+
+        try {
+            responseBody = teacherService.deleteTeacherById(teacherUtil.getIdList());
+        } catch (RollBackException e) {
+            e.printStackTrace();
+            responseBody = e.getErrorInfo();
+        }
+
+        return responseBody;
+    }
+}

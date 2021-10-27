@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script src="/public/js/jquery-3.6.0.min.js"></script>
+    <link href="./public/layui/css/layui.css">
+</head>
+<body>
+<a href="http://localhost:8080/MVCTest/default/">to success</a>
+
+<button type="button" id="delete_student_23">delete_student_23</button>
+<button type="button" id="update_student_26">update_student_26</button>
+
+<script type="text/javascript">
+    $(function () {
+        $('#delete_student_23').on('click', function () {
+            $.ajax({
+                type: 'delete',
+                contentType: "application/json;charset=utf-8",
+                url: "http://localhost:8080/MVCTest/student/delete/23",
+                dataType: 'JSON',
+                data: '',
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (e) {
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            })
+        })
+    })
+
+    $(function () {
+        $('#update_student_26').on("click", function (){
+            $.ajax({
+                type: 'put',
+                contentType: 'application/json;charset=utf-8',
+                url:'http://localhost:8080/MVCTest/student/update',
+                dataType: 'json',
+                data: {
+                    "id": "27",
+                    "realId": "2021020103",
+                    "name": "韩凤娟1",
+                    "gradeName": "二年级",
+                    "className": "一班",
+                    "classroomRealId": "201",
+                    "schoolName": "熊森林第一小学"
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (e) {
+                    console.log(e.status);
+                    console.log(e.responseText)
+                }
+            })
+        })
+    })
+    //
+    // $(function () {
+    //     $('#').on("click", function (){
+    //         $.ajax({
+    //             type: 'delete',
+    //             contentType: 'application/json;charset=utf-8',
+    //             url:'',
+    //             dataType: 'json',
+    //             data: '',
+    //             success: function (data) {
+    //                 console.log(data)
+    //                 console.log('service message : ' + data.message)
+    //             },
+    //             error: function (e) {
+    //                 console.log(e.status);
+    //                 console.log(e.responseText)
+    //             }
+    //         })
+    //     })
+    // })
+</script>
+<hr />
+<script src="./public/layui/layui.js"></script>
+<script>
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
+
+        layer.msg('Hello World');
+        exports('index', {});
+    });
+</script>
+<h2>CatPhotoApp</h2>
+<p>Hello Paragraph</p>
+</body>
+</html>
