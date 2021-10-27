@@ -10,9 +10,9 @@ public class ResponseTool {
 
     public static CommonResponseBody simpleCommonResponseBody(boolean flag){
         if(flag){
-            return new CommonResponseBody(StateNumber.SUCCESS);
+            return new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            return new CommonResponseBody(StateNumber.FAILED);
+            return new CommonResponseBody(StatusNumber.FAILED);
         }
     }
 

@@ -6,7 +6,7 @@ package cn.moquan.util;
  * @author wangyuanhong
  * @date 2021/10/19
  */
-public interface StateNumber {
+public interface StatusNumber {
 
     int SUCCESS = 200;
     int FAILED = 500;

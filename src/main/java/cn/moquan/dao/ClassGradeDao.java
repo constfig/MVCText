@@ -21,4 +21,6 @@ public interface ClassGradeDao {
     boolean deleteClassGrade(List<Integer> idList);
 
     boolean updateClassGrade(@Param("classGradeInfo") ClassGrade classGradeInfo, @Param("idList") List<Integer> idList);
+
+    boolean updateClassGradeCommon(@Param("newInfo") ClassGrade newInfo,@Param("targetInfo") ClassGrade targetInfo);
 }

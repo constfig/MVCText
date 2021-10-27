@@ -6,7 +6,7 @@ import cn.moquan.bean.TeachCourseInfo;
 import cn.moquan.bean.Teacher;
 import cn.moquan.dao.TeacherDao;
 import cn.moquan.util.CommonResponseBody;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import cn.moquan.util.ThrowExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,7 +101,7 @@ public class TeacherService {
         ThrowExceptionUtil.throwRollBackException(
                 teacherDao.updateTeacher(teacherInfo, idList),
                 "更新教师信息失败, 请检查!");
-        return new CommonResponseBody(StateNumber.SUCCESS);
+        return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
     public CommonResponseBody deleteTeacherById(List<Integer> idList) {
@@ -136,7 +136,7 @@ public class TeacherService {
                 "删除教师信息失败, 请检查!"
         );
 
-        return new CommonResponseBody(StateNumber.SUCCESS);
+        return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
 }

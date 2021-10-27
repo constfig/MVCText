@@ -11,7 +11,7 @@ public class ThrowExceptionUtil {
     public static void throwRollBackException(boolean flag, String message){
         if(!flag){
             throw new RollBackException(message,
-                    new CommonResponseBody(StateNumber.FAILED, message));
+                    new CommonResponseBody(StatusNumber.FAILED, message));
         }
     }
 

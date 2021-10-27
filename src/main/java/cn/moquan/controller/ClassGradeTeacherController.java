@@ -4,7 +4,7 @@ import cn.moquan.bean.BeanUtil;
 import cn.moquan.bean.ClassGradeTeacher;
 import cn.moquan.service.ClassGradeTeacherService;
 import cn.moquan.util.CommonResponseBody;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,9 +36,9 @@ public class ClassGradeTeacherController {
         List<ClassGradeTeacher> classGradeTeacherList = classGradeTeacherService.getClassGradeTeacher(classGradeTeacherBeanUtil.getInfo());
 
         if(classGradeTeacherList != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, classGradeTeacherList);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, classGradeTeacherList);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -51,9 +51,9 @@ public class ClassGradeTeacherController {
         CommonResponseBody responseBody;
 
         if(classGradeTeacherService.insertClassGradeTeacher(classGradeTeacherBeanUtil.getInfo(), classGradeTeacherBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
     
         return responseBody;
@@ -66,9 +66,9 @@ public class ClassGradeTeacherController {
         CommonResponseBody responseBody;
 
         if(classGradeTeacherService.deleteClassGradeTeacherById(classGradeTeacherBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -81,9 +81,9 @@ public class ClassGradeTeacherController {
         CommonResponseBody responseBody;
 
         if(classGradeTeacherService.deleteClassGradeTeacher(classGradeTeacherBeanUtil.getInfo(), classGradeTeacherBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;

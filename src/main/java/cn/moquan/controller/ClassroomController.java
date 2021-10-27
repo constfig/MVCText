@@ -4,7 +4,8 @@ import cn.moquan.bean.BeanUtil;
 import cn.moquan.bean.Classroom;
 import cn.moquan.service.ClassroomService;
 import cn.moquan.util.CommonResponseBody;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.RollBackException;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,9 +36,9 @@ public class ClassroomController {
         List<Classroom> classroomList = classroomService.getClassroom(classroomBeanUtil.getInfo());
 
         if(classroomList != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, classroomList);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, classroomList);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -50,9 +51,9 @@ public class ClassroomController {
         CommonResponseBody responseBody;
 
         if (classroomService.insertClassroom(classroomBeanUtil.getInfoList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -65,9 +66,9 @@ public class ClassroomController {
         CommonResponseBody responseBody;
 
         if(classroomService.updateClassroom(classroomBeanUtil.getInfo(), classroomBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -79,12 +80,13 @@ public class ClassroomController {
     
         CommonResponseBody responseBody;
 
-        if(classroomService.deleteClassroomById(classroomBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
-        }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+        try {
+            responseBody = classroomService.deleteClassroomById(classroomBeanUtil.getIdList());
+        } catch (RollBackException e) {
+            e.printStackTrace();
+             responseBody = e.getErrorInfo();
         }
-    
+
         return responseBody;
     }
 }

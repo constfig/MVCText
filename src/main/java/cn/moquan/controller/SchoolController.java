@@ -4,7 +4,7 @@ import cn.moquan.bean.BeanUtil;
 import cn.moquan.bean.School;
 import cn.moquan.service.SchoolService;
 import cn.moquan.util.CommonResponseBody;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +32,9 @@ public class SchoolController {
         List<School> schoolList = schoolService.getSchool(schoolBeanUtil.getInfo());
 
         if(schoolList != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, schoolList);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, schoolList);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -47,9 +47,9 @@ public class SchoolController {
         CommonResponseBody responseBody;
 
         if (schoolService.insertSchool(schoolBeanUtil.getInfoList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -62,9 +62,9 @@ public class SchoolController {
         CommonResponseBody responseBody;
 
         if(schoolService.updateSchool(schoolBeanUtil.getInfo(), schoolBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -77,9 +77,9 @@ public class SchoolController {
         CommonResponseBody responseBody;
 
         if(schoolService.deleteSchoolById(schoolBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
     
         return responseBody;

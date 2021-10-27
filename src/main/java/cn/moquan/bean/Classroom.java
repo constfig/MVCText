@@ -15,6 +15,10 @@ public class Classroom {
     public Classroom() {
     }
 
+    public Classroom(int id) {
+        this.id = id;
+    }
+
     public Classroom(int id, String realId, String gradeName, String className, String schoolName) {
         this.id = id;
         this.realId = realId;

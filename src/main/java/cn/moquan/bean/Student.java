@@ -26,6 +26,16 @@ public class Student {
     public Student() {
     }
 
+    public Student(String classroomRealId) {
+        this.classroomRealId = classroomRealId;
+    }
+
+    public Student(String gradeName, String className, String schoolName) {
+        this.gradeName = gradeName;
+        this.className = className;
+        this.schoolName = schoolName;
+    }
+
     public Student(int id, String realId, String name, String gradeName, String className, String classroomRealId, String schoolName) {
         this.id = id;
         this.realId = realId;

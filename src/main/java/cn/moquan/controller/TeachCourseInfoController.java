@@ -5,7 +5,7 @@ import cn.moquan.bean.Classroom;
 import cn.moquan.bean.TeachCourseInfo;
 import cn.moquan.service.TeachCourseInfoService;
 import cn.moquan.util.CommonResponseBody;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,9 +36,9 @@ public class TeachCourseInfoController {
         List<TeachCourseInfo> classroomList = teachCourseInfoService.getTeachCourseInfo(teachCourseInfoBeanUtil.getInfo());
 
         if(classroomList != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, classroomList);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, classroomList);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -51,9 +51,9 @@ public class TeachCourseInfoController {
         CommonResponseBody responseBody;
 
         if (teachCourseInfoService.insertTeachCourseInfo(teachCourseInfoBeanUtil.getInfoList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -66,9 +66,9 @@ public class TeachCourseInfoController {
         CommonResponseBody responseBody;
 
         if(teachCourseInfoService.updateTeachCourseInfo(teachCourseInfoBeanUtil.getInfo(), teachCourseInfoBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -81,9 +81,9 @@ public class TeachCourseInfoController {
         CommonResponseBody responseBody;
 
         if(teachCourseInfoService.deleteTeachCourseInfo(classroomBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
     
         return responseBody;

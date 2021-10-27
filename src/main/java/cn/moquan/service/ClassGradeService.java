@@ -8,7 +8,7 @@ import cn.moquan.bean.ClassGrade;
 import cn.moquan.dao.ClassGradeDao;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import cn.moquan.util.ThrowExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,9 +72,9 @@ public class ClassGradeService {
             studentInfo.setClassName("");
             // 开始更新
             if (studentService.updateStudent(studentInfo, studentIdList).getState()
-                    == StateNumber.FAILED) {
+                    == StatusNumber.FAILED) {
                 throw new RollBackException("学生班级信息重置失败",
-                        new CommonResponseBody(StateNumber.FAILED,
+                        new CommonResponseBody(StatusNumber.FAILED,
                                 "学生班级信息重置失败, 请检查后重试"));
             }
 
@@ -93,7 +93,7 @@ public class ClassGradeService {
             classroomInfo.setClassName("");
             if (!classroomService.updateClassroom(classroomInfo, classroomIdList)) {
                 throw new RollBackException("教室信息重置失败",
-                        new CommonResponseBody(StateNumber.FAILED,
+                        new CommonResponseBody(StatusNumber.FAILED,
                                 "教室信息重置失败, 请检查后重试"));
             }
 
@@ -110,7 +110,7 @@ public class ClassGradeService {
             }
             if (!teachCourseInfoService.deleteTeachCourseInfo(teachCourseInfoIdList)) {
                 throw new RollBackException("删除授课信息失败",
-                        new CommonResponseBody(StateNumber.FAILED,
+                        new CommonResponseBody(StatusNumber.FAILED,
                                 "删除授课信息失败, 请检查后重试"));
             }
 
@@ -121,18 +121,18 @@ public class ClassGradeService {
             // 删除班级_教师关联关系
             if (!classGradeTeacherService.deleteClassGradeTeacherUseInfo(classGradeTeacherInfo)) {
                 throw new RollBackException("删除班级教师关联关系失败",
-                        new CommonResponseBody(StateNumber.FAILED,
+                        new CommonResponseBody(StatusNumber.FAILED,
                                 "删除班级教师关联关系失败, 请检查后重试"));
             }
         }
 
         if (!classGradeDao.deleteClassGrade(idList)) {
             throw new RollBackException("删除班级信息失败",
-                    new CommonResponseBody(StateNumber.FAILED,
+                    new CommonResponseBody(StatusNumber.FAILED,
                             "删除班级信息失败, 请检查后重试"));
         }
 
-        return new CommonResponseBody(StateNumber.SUCCESS);
+        return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
     /**
@@ -156,9 +156,12 @@ public class ClassGradeService {
             nowInfo.setId(id);
             // 查询班级的 旧 班号 级号
             ClassGrade classGradeOld = getClassGrade(nowInfo).get(0);
+
             // 更新学生班级
+            Student studentInfo = new Student(classGradeInfo.getGradeName(), classGradeInfo.getClassName(), classGradeInfo.getSchoolName());
+            Student targetStudent = new Student(classGradeOld.getGradeName(), classGradeOld.getClassName(), classGradeOld.getSchoolName());
             ThrowExceptionUtil.throwRollBackException(
-                    studentService.updateClassGrade(classGradeInfo, classGradeOld),
+                    studentService.updateStudentCommon(studentInfo, targetStudent),
                     "更新班级信息时, 更新学生班级信息失败, 请检查!");
 
             // 更新授课信息
@@ -203,6 +206,10 @@ public class ClassGradeService {
                 "更新班级信息失败, 请检查!"
         );
 
-        return new CommonResponseBody(StateNumber.SUCCESS);
+        return new CommonResponseBody(StatusNumber.SUCCESS);
+    }
+
+    public boolean updateClassGradeCommon(ClassGrade newInfo, ClassGrade targetInfo) {
+        return classGradeDao.updateClassGradeCommon(newInfo, targetInfo);
     }
 }

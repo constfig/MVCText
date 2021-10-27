@@ -7,7 +7,7 @@ import cn.moquan.bean.Student;
 import cn.moquan.dao.StudentDao;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +55,8 @@ public class StudentService {
 
         CommonResponseBody responseBody = deleteLinkedStudentTeacher(studentIdList, true);
 
-        if (responseBody.getState() == StateNumber.SUCCESS && !studentDao.deleteStudents(studentIdList)) {
-            throw new RollBackException("学生删除失败", new CommonResponseBody(StateNumber.FAILED, "删除失败"));
+        if (responseBody.getState() == StatusNumber.SUCCESS && !studentDao.deleteStudents(studentIdList)) {
+            throw new RollBackException("学生删除失败", new CommonResponseBody(StatusNumber.FAILED, "删除失败"));
         }
 
         return responseBody;
@@ -87,13 +87,14 @@ public class StudentService {
 
         // 出现空值 不更新 学生老师关联关系
         if (completeInfo) {
-            return new CommonResponseBody(StateNumber.SUCCESS, "学校班级信息不足, 请更新");
+            return new CommonResponseBody(StatusNumber.SUCCESS, "学校班级信息不足, 请更新");
         }
 
         // 设置更新的学生与教师的关联 信息
         ArrayList<Student> studentArrayList = new ArrayList<>();
         for (int id : idList) {
-            studentArrayList.add(new Student(id, null, null, gradeName, className, null, schoolName));
+            studentArrayList.add(
+                    new Student(id, null, null, gradeName, className, null, schoolName));
         }
 
         // 开始添加关联关系
@@ -133,7 +134,7 @@ public class StudentService {
                 } catch (IndexOutOfBoundsException e) {
                     e.printStackTrace();
                     throw new RollBackException("没有 " + schoolName + " " + gradeName + " " + className + " 信息, 请检查",
-                            new CommonResponseBody(StateNumber.FAILED, schoolName + " " + gradeName + " " + className + "不存在, 请检查"));
+                            new CommonResponseBody(StatusNumber.FAILED, schoolName + " " + gradeName + " " + className + "不存在, 请检查"));
                 }
 
                 // 通过班级号获取教授这个班级课程的所有老师号
@@ -153,10 +154,10 @@ public class StudentService {
 
         if (errorList.size() > 0 || !result) {
             throw new RollBackException("学生信息异常",
-                    new CommonResponseBody(StateNumber.FAILED, "学生信息异常", errorList));
+                    new CommonResponseBody(StatusNumber.FAILED, "学生信息异常", errorList));
         }
 
-        return new CommonResponseBody(StateNumber.SUCCESS);
+        return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
     /**
@@ -189,18 +190,19 @@ public class StudentService {
         }
 
         if (errorList.size() > 0) {
-            throw new RollBackException("", new CommonResponseBody(StateNumber.FAILED, "学生关联删除失败", errorList));
+            throw new RollBackException("", new CommonResponseBody(StatusNumber.FAILED, "学生关联删除失败", errorList));
         }
 
         if (!result) {
             throw new RollBackException("学生信息删除失败",
-                    new CommonResponseBody(StateNumber.FAILED, "学生信息删除失败"));
+                    new CommonResponseBody(StatusNumber.FAILED, "学生信息删除失败"));
         }
 
-        return new CommonResponseBody(StateNumber.SUCCESS);
+        return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
-    public boolean updateClassGrade(ClassGrade newInfo, ClassGrade oldInfo) {
-        return studentDao.updateClassGrade(newInfo, oldInfo);
+    public boolean updateStudentCommon(Student newInfo, Student oldInfo) {
+        return studentDao.updateCommon(newInfo, oldInfo);
     }
+
 }

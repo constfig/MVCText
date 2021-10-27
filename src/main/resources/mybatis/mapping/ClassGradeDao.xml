@@ -78,4 +78,20 @@
             )
     </delete>
 
+    <update id="updateClassGradeCommon">
+        update class_grade
+        <set>
+            <if test="newInfo.gradeName">grade_name = #{newInfo.gradeName},</if>
+            <if test="newInfo.className">class_name = #{newInfo.className},</if>
+            <if test="newInfo.classroomRealId">classroom_real_id = #{newInfo.classroomRealId},</if>
+            <if test="newInfo.schoolName">school_name = #{newInfo.schoolName}</if>
+        </set>
+        <where>
+            <if test="targetInfo.schoolName">school_name = #{targetInfo.schoolName}</if>
+            <if test="targetInfo.classroomRealId">classroom_real_id = #{targetInfo.classroomRealId}</if>
+            <if test="targetInfo.gradeName">grade_name = #{targetInfo.gradeName}</if>
+            <if test="targetInfo.className">class_name = #{targetInfo.className}</if>
+        </where>
+    </update>
+
 </mapper>

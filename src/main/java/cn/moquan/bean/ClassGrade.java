@@ -15,6 +15,12 @@ public class ClassGrade {
     public ClassGrade() {
     }
 
+    public ClassGrade(String gradeName, String className, String schoolName) {
+        this.gradeName = gradeName;
+        this.className = className;
+        this.schoolName = schoolName;
+    }
+
     public ClassGrade(int id, String gradeName, String className, String classroomRealId, String schoolName) {
         this.id = id;
         this.gradeName = gradeName;

@@ -5,7 +5,7 @@ import cn.moquan.bean.Teacher;
 import cn.moquan.service.TeacherService;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +34,9 @@ public class TeacherController {
         Teacher teacherById = teacherService.getTeacherById(id);
 
         if(teacherById != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, teacherById);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, teacherById);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -47,12 +47,12 @@ public class TeacherController {
     public CommonResponseBody getTeacher(@RequestBody BeanUtil<Teacher> teacherBeanUtil){
 
         CommonResponseBody responseBody;
-        List<Teacher> teacher = teacherService.getTeacher(teacherBeanUtil.getInfo());
+        List<Teacher> teacherList = teacherService.getTeacher(teacherBeanUtil.getInfo());
 
-        if(teacher != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, teacher);
+        if(teacherList != null){
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, teacherList);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -65,9 +65,9 @@ public class TeacherController {
         CommonResponseBody responseBody;
 
         if (teacherService.insertTeacher(teacherBeanUtil.getInfoList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -76,8 +76,6 @@ public class TeacherController {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public CommonResponseBody updateTeacher(@RequestBody BeanUtil<Teacher> teacherUtil){
-
-        System.out.println(teacherUtil);
 
         CommonResponseBody responseBody;
 

@@ -5,7 +5,7 @@ import cn.moquan.bean.ClassGrade;
 import cn.moquan.service.*;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,9 +45,9 @@ public class ClassGradeController {
         List<ClassGrade> classGradesList = classGradeService.getClassGrade(classGradeBeanUtil.getInfo());
 
         if(classGradesList != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, classGradesList);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, classGradesList);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -60,9 +60,9 @@ public class ClassGradeController {
         CommonResponseBody responseBody;
 
         if(classGradeService.insertClassGrade(classGradeBeanUtil.getInfoList())){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
     
         return responseBody;

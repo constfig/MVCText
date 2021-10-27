@@ -5,7 +5,7 @@ import cn.moquan.bean.Student;
 import cn.moquan.service.StudentService;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
-import cn.moquan.util.StateNumber;
+import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +34,9 @@ public class StudentController {
         Student studentById = studentService.getStudentById(id);
 
         if(studentById != null){
-            responseBody = new CommonResponseBody(StateNumber.SUCCESS, studentById);
+            responseBody = new CommonResponseBody(StatusNumber.SUCCESS, studentById);
         }else{
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
@@ -51,9 +51,9 @@ public class StudentController {
         List<Student> studentList = studentService.getStudent(studentBeanUtil.getInfo());
 
         if (studentList != null) {
-            responseBody =  new CommonResponseBody(StateNumber.SUCCESS, studentList);
+            responseBody =  new CommonResponseBody(StatusNumber.SUCCESS, studentList);
         } else {
-            responseBody = new CommonResponseBody(StateNumber.FAILED);
+            responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
         return responseBody;
