@@ -2,9 +2,6 @@ package cn.moquan.controller;
 
 import cn.moquan.bean.BeanUtil;
 import cn.moquan.bean.ClassGradeTeacher;
-import cn.moquan.bean.classgrade.ClassGrade;
-import cn.moquan.bean.classgrade.ClassGradeUtil;
-import cn.moquan.service.ClassGradeService;
 import cn.moquan.service.ClassGradeTeacherService;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.StateNumber;

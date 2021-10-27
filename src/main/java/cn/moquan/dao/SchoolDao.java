@@ -1,6 +1,6 @@
 package cn.moquan.dao;
 
-import cn.moquan.bean.school.School;
+import cn.moquan.bean.School;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

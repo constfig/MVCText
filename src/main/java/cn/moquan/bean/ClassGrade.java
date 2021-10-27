@@ -1,4 +1,4 @@
-package cn.moquan.bean.classgrade;
+package cn.moquan.bean;
 
 /**
  * @author wangyuanhong

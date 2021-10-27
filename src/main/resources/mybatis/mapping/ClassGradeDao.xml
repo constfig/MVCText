@@ -21,7 +21,7 @@
         school_name	VARCHAR(30)	NOT NULL DEFAULT "",	学校名
     -->
 
-    <resultMap id="classGrade" type="cn.moquan.bean.classgrade.ClassGrade">
+    <resultMap id="classGrade" type="cn.moquan.bean.ClassGrade">
         <id property="id" column="id"/>
         <result property="gradeName" column="grade_name"/>
         <result property="className" column="class_name"/>

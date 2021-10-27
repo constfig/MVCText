@@ -1,8 +1,7 @@
 package cn.moquan.service;
 
 import cn.moquan.bean.Classroom;
-import cn.moquan.bean.classgrade.ClassGrade;
-import cn.moquan.bean.school.School;
+import cn.moquan.bean.ClassGrade;
 import cn.moquan.dao.ClassroomDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

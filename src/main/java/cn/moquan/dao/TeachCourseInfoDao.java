@@ -1,8 +1,7 @@
 package cn.moquan.dao;
 
 import cn.moquan.bean.TeachCourseInfo;
-import cn.moquan.bean.classgrade.ClassGrade;
-import cn.moquan.bean.school.School;
+import cn.moquan.bean.ClassGrade;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

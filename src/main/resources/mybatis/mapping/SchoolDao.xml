@@ -15,7 +15,7 @@
         name	VARCHAR(30)	NOT NULL DEFAULT "",	学校名
     -->
 
-    <resultMap id="school" type="cn.moquan.bean.school.School">
+    <resultMap id="school" type="cn.moquan.bean.School">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
     </resultMap>

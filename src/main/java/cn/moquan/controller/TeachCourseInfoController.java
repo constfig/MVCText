@@ -3,8 +3,6 @@ package cn.moquan.controller;
 import cn.moquan.bean.BeanUtil;
 import cn.moquan.bean.Classroom;
 import cn.moquan.bean.TeachCourseInfo;
-import cn.moquan.bean.school.School;
-import cn.moquan.service.ClassroomService;
 import cn.moquan.service.TeachCourseInfoService;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.StateNumber;

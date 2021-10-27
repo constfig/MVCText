@@ -3,12 +3,11 @@ package cn.moquan.service;
 import cn.moquan.bean.ClassGradeTeacher;
 import cn.moquan.bean.StudentTeacher;
 import cn.moquan.bean.TeachCourseInfo;
-import cn.moquan.bean.teacher.Teacher;
+import cn.moquan.bean.Teacher;
 import cn.moquan.dao.TeacherDao;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.StateNumber;
 import cn.moquan.util.ThrowExceptionUtil;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package cn.moquan.bean.teacher;
+package cn.moquan.bean;
 
 /**
  * @author wangyuanhong

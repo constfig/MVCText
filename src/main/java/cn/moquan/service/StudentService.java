@@ -2,7 +2,7 @@ package cn.moquan.service;
 
 import cn.moquan.bean.ClassGradeTeacher;
 import cn.moquan.bean.StudentTeacher;
-import cn.moquan.bean.classgrade.ClassGrade;
+import cn.moquan.bean.ClassGrade;
 import cn.moquan.bean.Student;
 import cn.moquan.dao.StudentDao;
 import cn.moquan.util.CommonResponseBody;

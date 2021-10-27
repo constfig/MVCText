@@ -1,11 +1,8 @@
 package cn.moquan.controller;
 
 import cn.moquan.bean.BeanUtil;
-import cn.moquan.bean.school.School;
-import cn.moquan.bean.teacher.Teacher;
-import cn.moquan.bean.teacher.TeacherUtil;
+import cn.moquan.bean.School;
 import cn.moquan.service.SchoolService;
-import cn.moquan.service.TeacherService;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.StateNumber;
 import org.springframework.beans.factory.annotation.Autowired;

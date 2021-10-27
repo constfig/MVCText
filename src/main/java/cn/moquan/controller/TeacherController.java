@@ -1,8 +1,7 @@
 package cn.moquan.controller;
 
 import cn.moquan.bean.BeanUtil;
-import cn.moquan.bean.teacher.Teacher;
-import cn.moquan.bean.teacher.TeacherUtil;
+import cn.moquan.bean.Teacher;
 import cn.moquan.service.TeacherService;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
@@ -45,10 +44,10 @@ public class TeacherController {
 
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    public CommonResponseBody getTeacher(@RequestBody Teacher teacherInfo){
+    public CommonResponseBody getTeacher(@RequestBody BeanUtil<Teacher> teacherBeanUtil){
 
         CommonResponseBody responseBody;
-        List<Teacher> teacher = teacherService.getTeacher(teacherInfo);
+        List<Teacher> teacher = teacherService.getTeacher(teacherBeanUtil.getInfo());
 
         if(teacher != null){
             responseBody = new CommonResponseBody(StateNumber.SUCCESS, teacher);
@@ -61,11 +60,11 @@ public class TeacherController {
 
     @ResponseBody
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public CommonResponseBody insertTeacher(@RequestBody TeacherUtil teacherInfoList){
+    public CommonResponseBody insertTeacher(@RequestBody BeanUtil<Teacher> teacherBeanUtil){
 
         CommonResponseBody responseBody;
 
-        if (teacherService.insertTeacher(teacherInfoList.getTeacherInfoList())){
+        if (teacherService.insertTeacher(teacherBeanUtil.getInfoList())){
             responseBody = new CommonResponseBody(StateNumber.SUCCESS);
         }else{
             responseBody = new CommonResponseBody(StateNumber.FAILED);
@@ -95,12 +94,12 @@ public class TeacherController {
     
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public CommonResponseBody deleteTeacherById(@RequestBody TeacherUtil teacherUtil){
+    public CommonResponseBody deleteTeacherById(@RequestBody BeanUtil<Teacher> teacherBeanUtil){
     
         CommonResponseBody responseBody;
 
         try {
-            responseBody = teacherService.deleteTeacherById(teacherUtil.getIdList());
+            responseBody = teacherService.deleteTeacherById(teacherBeanUtil.getIdList());
         } catch (RollBackException e) {
             e.printStackTrace();
             responseBody = e.getErrorInfo();

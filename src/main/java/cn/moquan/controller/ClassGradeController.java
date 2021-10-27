@@ -1,8 +1,7 @@
 package cn.moquan.controller;
 
 import cn.moquan.bean.BeanUtil;
-import cn.moquan.bean.classgrade.ClassGrade;
-import cn.moquan.bean.classgrade.ClassGradeUtil;
+import cn.moquan.bean.ClassGrade;
 import cn.moquan.service.*;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
@@ -39,11 +38,11 @@ public class ClassGradeController {
 
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    public CommonResponseBody getClassGrade(@RequestBody ClassGrade classGradeInfo){
+    public CommonResponseBody getClassGrade(@RequestBody BeanUtil<ClassGrade> classGradeBeanUtil){
 
         CommonResponseBody responseBody;
 
-        List<ClassGrade> classGradesList = classGradeService.getClassGrade(classGradeInfo);
+        List<ClassGrade> classGradesList = classGradeService.getClassGrade(classGradeBeanUtil.getInfo());
 
         if(classGradesList != null){
             responseBody = new CommonResponseBody(StateNumber.SUCCESS, classGradesList);
