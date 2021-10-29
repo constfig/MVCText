@@ -65,10 +65,11 @@ public class ClassroomController {
 
         CommonResponseBody responseBody;
 
-        if(classroomService.updateClassroom(classroomBeanUtil.getInfo(), classroomBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
-        }else{
-            responseBody = new CommonResponseBody(StatusNumber.FAILED);
+        try {
+            responseBody = classroomService.updateClassroom(classroomBeanUtil.getInfo(), classroomBeanUtil.getIdList());
+        } catch (RollBackException e) {
+            e.printStackTrace();
+            responseBody = e.getErrorInfo();
         }
 
         return responseBody;

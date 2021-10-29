@@ -116,6 +116,7 @@
             <if test="newInfo.schoolName != null">school_name = #{newInfo.schoolName},</if>
             <if test="newInfo.teacherName != null">teacher_name = #{newInfo.teacherName},</if>
             <if test="newInfo.courseName != null">course_name = #{newInfo.courseName},</if>
+            <if test="newInfo.classroomRealId != null">classroom_real_id = #{newInfo.classroomRealId},</if>
             <if test="newInfo.gradeName != null">grade_name = #{newInfo.gradeName},</if>
             <if test="newInfo.className != null">class_name = #{newInfo.className}</if>
         </set>
@@ -123,6 +124,7 @@
             <if test="oldInfo.schoolName != null">school_name = #{oldInfo.schoolName}</if>
             <if test="oldInfo.teacherName != null">AND teacher_name = #{oldInfo.teacherName}</if>
             <if test="oldInfo.courseName != null">AND course_name = #{oldInfo.courseName}</if>
+            <if test="oldInfo.classroomRealId != null">AND classroom_real_id = #{oldInfo.classroomRealId}</if>
             <if test="oldInfo.gradeName != null">AND grade_name = #{oldInfo.gradeName}</if>
             <if test="oldInfo.className != null">AND class_name = #{oldInfo.className}</if>
         </where>

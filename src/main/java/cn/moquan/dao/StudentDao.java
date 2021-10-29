@@ -22,4 +22,5 @@ public interface StudentDao {
     Student getStudentById(int id);
 
     boolean updateStudentCommon(@Param("newInfo")Student newInfo, @Param("oldInfo") Student oldInfo);
+
 }

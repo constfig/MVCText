@@ -91,7 +91,7 @@ public class ClassGradeService {
             }
             classroomInfo.setGradeName("");
             classroomInfo.setClassName("");
-            if (!classroomService.updateClassroom(classroomInfo, classroomIdList)) {
+            if (classroomService.updateClassroom(classroomInfo, classroomIdList).getStatus() != StatusNumber.SUCCESS) {
                 throw new RollBackException("教室信息重置失败",
                         new CommonResponseBody(StatusNumber.FAILED,
                                 "教室信息重置失败, 请检查后重试"));
@@ -196,7 +196,7 @@ public class ClassGradeService {
                 classroomIdList.add(classroom.getId());
                 // 开始更新
                 ThrowExceptionUtil.throwRollBackException(
-                        classroomService.updateClassroom(classroom, classroomIdList),
+                        classroomService.updateClassroom(classroom, classroomIdList).getStatus() != StatusNumber.SUCCESS,
                         "更新班级信息时教室信息更新失败, 请检查!");
             }
         }
