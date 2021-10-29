@@ -2,6 +2,7 @@ package cn.moquan.dao;
 
 import cn.moquan.bean.Student;
 import cn.moquan.bean.ClassGrade;
+import cn.moquan.util.CommonResponseBody;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ public interface StudentDao {
 
     boolean insertStudent(List<Student> studentInfo);
 
-    boolean deleteStudent(int id);
+    boolean deleteStudentById(int id);
 
     boolean deleteStudents(List<Integer> studentIdList);
 
@@ -23,4 +24,5 @@ public interface StudentDao {
 
     boolean updateStudentCommon(@Param("newInfo")Student newInfo, @Param("oldInfo") Student oldInfo);
 
+    boolean deleteStudent(Student info);
 }

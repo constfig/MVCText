@@ -69,7 +69,7 @@
         )
     </update>
 
-    <delete id="deleteClassGrade">
+    <delete id="deleteClassGrades">
         delete from class_grade
         where id in(
             <foreach collection="list" index="index" item="id" separator=",">
@@ -94,4 +94,14 @@
         </where>
     </update>
 
+    <delete id="deleteClassGrade">
+        delete from class_grade
+        <where>
+            <if test="id">id = #{id}</if>
+            <if test="schoolName">AND school_name = #{schoolName}</if>
+            <if test="classroomRealId"> AND classroom_real_id = #{classroomRealId}</if>
+            <if test="gradeName">AND grade_name = #{gradeName}</if>
+            <if test="className">AND class_name = #{className}</if>
+        </where>
+    </delete>
 </mapper>

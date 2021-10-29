@@ -111,4 +111,26 @@
             </if>
     </delete>
 
+    <update id="updateStudentTeacher">
+        update student_teacher
+        <set>
+            <if test="newInfo.schoolName != null">school_name = #{newInfo.schoolName}</if>
+            <if test="newInfo.teacherId != 0">
+                And teacher_id = #{newInfo.teacherId}
+            </if>
+            <if test="newInfo.studentId != 0">
+                And studente_id = #{newInfo.studenteId}
+            </if>
+        </set>
+        <where>
+            <if test="true">school_name = #{oldInfo.schoolName}</if>
+            <if test="oldInfo.teacherId != 0">
+                And teacher_id = #{oldInfo.teacherId}
+            </if>
+            <if test="oldInfo.studentId != 0">
+                And studente_id = #{oldInfo.studenteId}
+            </if>
+        </where>
+    </update>
+
 </mapper>

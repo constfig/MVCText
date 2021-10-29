@@ -26,4 +26,6 @@ public interface StudentTeacherDao {
     boolean deleteStudentTeacher(@Param("info") StudentTeacher info,@Param("idList") List<Integer> idList);
 
     boolean deleteStudentTeacherUseInfo(StudentTeacher info);
+
+    boolean updateStudentTeacher(@Param("newInfo") StudentTeacher newInfo,@Param("oldInfo") StudentTeacher oldInfo);
 }

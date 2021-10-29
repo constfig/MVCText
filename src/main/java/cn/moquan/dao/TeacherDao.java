@@ -20,7 +20,11 @@ public interface TeacherDao {
 
     boolean insertTeacher(List<Teacher> teacherInfoList);
 
-    boolean updateTeacher(@Param("teacherInfo") Teacher teacherInfo, @Param("idList") List<Integer> idList);
+    boolean updateTeachers(@Param("teacherInfo") Teacher teacherInfo, @Param("idList") List<Integer> idList);
 
     boolean deleteTeacherById(List<Integer> idList);
+
+    boolean deleteTeacher(Teacher info);
+
+    boolean updateTeacher(@Param("newInfo") Teacher newInfo, @Param("oldInfo") Teacher oldInfo);
 }

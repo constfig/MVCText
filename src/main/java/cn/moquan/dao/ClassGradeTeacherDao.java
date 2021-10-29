@@ -22,7 +22,11 @@ public interface ClassGradeTeacherDao {
 
     boolean deleteClassGradeTeacherById(List<Integer> idList);
 
-    boolean deleteClassGradeTeacher(@Param("info") ClassGradeTeacher info, @Param("idList") List<Integer> idList);
+    boolean deleteClassGradeTeachers(@Param("info") ClassGradeTeacher info, @Param("idList") List<Integer> idList);
 
     boolean deleteClassGradeTeacherUseInfo(ClassGradeTeacher info);
+
+    boolean deleteClassGradeTeacher(ClassGradeTeacher info);
+
+    boolean updateClassGradeTeacher(@Param("newInfo")ClassGradeTeacher newInfo,@Param("oldInfo") ClassGradeTeacher oldInfo);
 }

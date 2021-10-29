@@ -80,7 +80,7 @@ public class TeacherController {
         CommonResponseBody responseBody;
 
         try {
-            responseBody = teacherService.updateTeacher(
+            responseBody = teacherService.updateTeachers(
                     teacherUtil.getInfo(), teacherUtil.getIdList());
         } catch (RollBackException e) {
             e.printStackTrace();

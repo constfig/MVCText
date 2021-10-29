@@ -93,4 +93,14 @@
         </where>
     </update>
 
+    <delete id="deleteClassroom">
+        delete from classroom
+        <where>
+            <if test="id != 0">id = #{id}</if>
+            <if test="schoolName != null">AND school_name = #{schoolName}</if>
+            <if test="realId != null">AND real_id = #{realId}</if>
+            <if test="gradeName != null">AND grade_name = #{gradeName}</if>
+            <if test="className != null">AND class_name = #{className}</if>
+        </where>
+    </delete>
 </mapper>

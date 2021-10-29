@@ -70,7 +70,7 @@
         where id = #{id}
     </update>-->
 
-    <update id="updateTeacher">
+    <update id="updateTeachers">
         update teacher
         <set>
             <if test="teacherInfo.schoolName != null &amp;&amp; teacherInfo.schoolName != &quot;&quot;">school_name = #{teacherInfo.schoolName},</if>
@@ -93,5 +93,34 @@
             </foreach>
             )
     </delete>
+
+    <delete id="deleteTeacher">
+        delete from teacher
+        <where>
+            <if test="id != 0">id = #{id}</if>
+            <if test="schoolName != null">AND school_name = #{schoolName}</if>
+            <if test="realId != null">AND real_id = #{realId}</if>
+            <if test="name != null">AND name = #{name}</if>
+            <if test="teachCourseName != null">AND teach_course_name = #{teachCourseName}</if>
+        </where>
+    </delete>
+
+    <update id="updateTeacher">
+        update teacher
+        <set>
+            <if test="newInfo.id != 0">id = #{newInfo.id}</if>
+            <if test="newInfo.schoolName != null"> school_name = #{newInfo.schoolName},</if>
+            <if test="newInfo.realId != null"> real_id = #{newInfo.realId},</if>
+            <if test="newInfo.name != null"> name = #{newInfo.name},</if>
+            <if test="newInfo.teachCourseName != null"> teach_course_name = #{newInfo.teachCourseName}</if>
+        </set>
+        <where>
+            <if test="oldInfo.id != 0">id = #{oldInfo.id}</if>
+            <if test="oldInfo.schoolName != null">AND school_name = #{oldInfo.schoolName}</if>
+            <if test="oldInfo.realId != null">AND real_id = #{oldInfo.realId}</if>
+            <if test="oldInfo.name != null">AND name = #{oldInfo.name}</if>
+            <if test="oldInfo.teachCourseName != null">AND teach_course_name = #{oldInfo.teachCourseName}</if>
+        </where>
+    </update>
 
 </mapper>

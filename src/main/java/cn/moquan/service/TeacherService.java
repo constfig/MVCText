@@ -45,7 +45,7 @@ public class TeacherService {
         return teacherDao.insertTeacher(teacherInfoList);
     }
 
-    public CommonResponseBody updateTeacher(Teacher teacherInfo, List<Integer> idList) {
+    public CommonResponseBody updateTeachers(Teacher teacherInfo, List<Integer> idList) {
 
         boolean updateTeachCourseInfoFlag = true;
 
@@ -99,7 +99,7 @@ public class TeacherService {
 
         }
         ThrowExceptionUtil.throwRollBackException(
-                teacherDao.updateTeacher(teacherInfo, idList),
+                teacherDao.updateTeachers(teacherInfo, idList),
                 "更新教师信息失败, 请检查!");
         return new CommonResponseBody(StatusNumber.SUCCESS);
     }
@@ -139,4 +139,21 @@ public class TeacherService {
         return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
+    public boolean deleteTeacher(Teacher info) {
+
+        ThrowExceptionUtil.throwRollBackException(
+                teacherDao.deleteTeacher(info),
+                "删除教师信息失败, 请检查!"
+        );
+
+        return true;
+    }
+
+    public boolean updateTeacher(Teacher newInfo, Teacher oldInfo) {
+        ThrowExceptionUtil.throwRollBackException(
+                teacherDao.updateTeacher(newInfo, oldInfo),
+                "更新教室信息失败, 请检查!"
+        );
+        return true;
+    }
 }

@@ -75,7 +75,7 @@ public class ClassGradeController {
         CommonResponseBody responseBody;
 
         try {
-            responseBody = classGradeService.deleteClassGrade(classGradeBeanUtil.getIdList());
+            responseBody = classGradeService.deleteClassGrades(classGradeBeanUtil.getIdList());
         } catch (RollBackException e) {
             responseBody = e.getErrorInfo();
             e.printStackTrace();

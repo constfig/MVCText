@@ -73,7 +73,7 @@
         </foreach>
     </insert>
 
-    <delete id="deleteStudent">
+    <delete id="deleteStudentById">
         delete
         from student
         where id = #{id}
@@ -126,5 +126,18 @@
             <if test="oldInfo.schoolName != null">AND school_name = #{oldInfo.schoolName}</if>
         </where>
     </update>
+
+    <delete id="deleteStudent">
+        delete from student
+        <where>
+            <if test="id != 0">id = #{id}</if>
+            <if test="realId != null"> AND realI_id = #{realId}</if>
+            <if test="name != null">AND name = #{name}</if>
+            <if test="gradeName != null">AND grade_name = #{gradeName}</if>
+            <if test="className != null">AND class_name = #{className}</if>
+            <if test="classroomRealId != null">AND classroom_real_id = #{classroomRealId}</if>
+            <if test="schoolName != null">AND school_name = #{schoolName}</if>
+        </where>
+    </delete>
 
 </mapper>

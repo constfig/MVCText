@@ -47,7 +47,7 @@ public class ClassGradeService {
         return classGradeDao.insertClassGrade(classGradeInfoList);
     }
 
-    public CommonResponseBody deleteClassGrade(List<Integer> idList) {
+    public CommonResponseBody deleteClassGrades(List<Integer> idList) {
 
         for (int id : idList) {
             ClassGrade classGradeInfo = new ClassGrade();
@@ -126,7 +126,7 @@ public class ClassGradeService {
             }
         }
 
-        if (!classGradeDao.deleteClassGrade(idList)) {
+        if (!classGradeDao.deleteClassGrades(idList)) {
             throw new RollBackException("删除班级信息失败",
                     new CommonResponseBody(StatusNumber.FAILED,
                             "删除班级信息失败, 请检查后重试"));
@@ -211,5 +211,13 @@ public class ClassGradeService {
 
     public boolean updateClassGradeCommon(ClassGrade newInfo, ClassGrade targetInfo) {
         return classGradeDao.updateClassGradeCommon(newInfo, targetInfo);
+    }
+
+    public boolean deleteClassGrade(ClassGrade info) {
+        ThrowExceptionUtil.throwRollBackException(
+                classGradeDao.deleteClassGrade(info),
+                "删除班级信息失败, 请检查!"
+        );
+        return true;
     }
 }

@@ -4,6 +4,7 @@ import cn.moquan.bean.BeanUtil;
 import cn.moquan.bean.School;
 import cn.moquan.service.SchoolService;
 import cn.moquan.util.CommonResponseBody;
+import cn.moquan.util.RollBackException;
 import cn.moquan.util.StatusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,14 @@ public class SchoolController {
 
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    public CommonResponseBody getSchool(@RequestBody BeanUtil<School> schoolBeanUtil){
+    public CommonResponseBody getSchool(@RequestBody BeanUtil<School> schoolBeanUtil) {
 
         CommonResponseBody responseBody;
         List<School> schoolList = schoolService.getSchool(schoolBeanUtil.getInfo());
 
-        if(schoolList != null){
+        if (schoolList != null) {
             responseBody = new CommonResponseBody(StatusNumber.SUCCESS, schoolList);
-        }else{
+        } else {
             responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
@@ -42,13 +43,13 @@ public class SchoolController {
 
     @ResponseBody
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public CommonResponseBody insertSchool(@RequestBody BeanUtil<School> schoolBeanUtil){
+    public CommonResponseBody insertSchool(@RequestBody BeanUtil<School> schoolBeanUtil) {
 
         CommonResponseBody responseBody;
 
-        if (schoolService.insertSchool(schoolBeanUtil.getInfoList())){
+        if (schoolService.insertSchool(schoolBeanUtil.getInfoList())) {
             responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
-        }else{
+        } else {
             responseBody = new CommonResponseBody(StatusNumber.FAILED);
         }
 
@@ -57,31 +58,33 @@ public class SchoolController {
 
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public CommonResponseBody updateSchool(@RequestBody BeanUtil<School> schoolBeanUtil){
+    public CommonResponseBody updateSchool(@RequestBody BeanUtil<School> schoolBeanUtil) {
 
         CommonResponseBody responseBody;
 
-        if(schoolService.updateSchool(schoolBeanUtil.getInfo(), schoolBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
-        }else{
-            responseBody = new CommonResponseBody(StatusNumber.FAILED);
+        try {
+            responseBody = schoolService.updateSchool(schoolBeanUtil.getInfo(), schoolBeanUtil.getIdList());
+        } catch (RollBackException e) {
+            e.printStackTrace();
+            responseBody = e.getErrorInfo();
         }
 
         return responseBody;
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public CommonResponseBody deleteSchoolById(@RequestBody BeanUtil<School> schoolBeanUtil){
-    
+    public CommonResponseBody deleteSchoolById(@RequestBody BeanUtil<School> schoolBeanUtil) {
+
         CommonResponseBody responseBody;
 
-        if(schoolService.deleteSchoolById(schoolBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
-        }else{
-            responseBody = new CommonResponseBody(StatusNumber.FAILED);
+        try {
+            responseBody = schoolService.deleteSchoolById(schoolBeanUtil.getIdList());
+        } catch (RollBackException e) {
+            e.printStackTrace();
+            responseBody = e.getErrorInfo();
         }
-    
+
         return responseBody;
     }
 }

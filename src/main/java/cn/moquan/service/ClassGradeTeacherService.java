@@ -2,6 +2,7 @@ package cn.moquan.service;
 
 import cn.moquan.bean.ClassGradeTeacher;
 import cn.moquan.dao.ClassGradeTeacherDao;
+import cn.moquan.util.ThrowExceptionUtil;
 import jdk.nashorn.internal.ir.IfNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,24 @@ public class ClassGradeTeacherService {
         return classGradeTeacherDao.deleteClassGradeTeacherById(idList);
     }
 
-    public boolean deleteClassGradeTeacher(ClassGradeTeacher info, List<Integer> idList) {
-        return classGradeTeacherDao.deleteClassGradeTeacher(info, idList);
+    public boolean deleteClassGradeTeachers(ClassGradeTeacher info, List<Integer> idList) {
+        return classGradeTeacherDao.deleteClassGradeTeachers(info, idList);
     }
     public boolean deleteClassGradeTeacherUseInfo(ClassGradeTeacher info) {
         return classGradeTeacherDao.deleteClassGradeTeacherUseInfo(info);
+    }
+
+    public boolean updateClassGradeTeacher(ClassGradeTeacher newInfo, ClassGradeTeacher oldInfo) {
+
+        ThrowExceptionUtil.throwRollBackException(
+                classGradeTeacherDao.updateClassGradeTeacher(newInfo, oldInfo),
+                "更新班级教师关联信息失败, 请检查!"
+        );
+
+        return true;
+    }
+
+    public boolean deleteClassGradeTeacher(ClassGradeTeacher info) {
+        return classGradeTeacherDao.deleteClassGradeTeacher(info);
     }
 }

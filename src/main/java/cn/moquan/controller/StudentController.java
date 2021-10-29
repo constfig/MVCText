@@ -81,7 +81,7 @@ public class StudentController {
         CommonResponseBody responseBody;
 
         try {
-           responseBody = studentService.deleteStudent(id);
+           responseBody = studentService.deleteStudentById(id);
         } catch (RollBackException e) {
             e.printStackTrace();
             responseBody = e.getErrorInfo();

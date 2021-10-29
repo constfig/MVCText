@@ -43,4 +43,8 @@ public class StudentTeacherService {
     public boolean deleteStudentTeacherUseInfo(StudentTeacher info) {
         return studentTeacherDao.deleteStudentTeacherUseInfo(info);
     }
+
+    public boolean updateStudentTeacher(StudentTeacher newInfo, StudentTeacher oldInfo) {
+        return studentTeacherDao.updateStudentTeacher(newInfo, oldInfo);
+    }
 }

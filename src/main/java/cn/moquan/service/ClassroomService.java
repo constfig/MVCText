@@ -146,4 +146,14 @@ public class ClassroomService {
     public boolean updateClassGrade(ClassGrade newInfo, ClassGrade oldInfo) {
         return classroomDao.updateClassGrade(newInfo, oldInfo);
     }
+
+    public boolean deleteClassroom(Classroom info) {
+
+        ThrowExceptionUtil.throwRollBackException(
+                classroomDao.deleteClassroom(info),
+                "删除教室信息失败, 请检查!"
+        );
+
+        return true;
+    }
 }

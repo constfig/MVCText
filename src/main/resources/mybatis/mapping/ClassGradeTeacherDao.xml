@@ -66,7 +66,7 @@
             )
     </delete>
 
-    <delete id="deleteClassGradeTeacher">
+    <delete id="deleteClassGradeTeachers">
         delete from class_grade_teacher
         where school_name = #{info.schoolName}
             <if test="info.classId == 0">
@@ -98,4 +98,29 @@
             </if>
     </delete>
 
+    <delete id="deleteClassGradeTeacher">
+        delete from class_grade_teacher
+        where school_name = #{schoolName}
+        <if test="teacherId != 0">
+            AND teacher_id = #{teacherId}
+        </if>
+        <if test="classId != 0">
+            AND class_grade_id = #{classId}
+        </if>
+    </delete>
+
+    <update id="updateClassGradeTeacher">
+        update class_grade_teacher
+        <set>
+            <if test="newInfo.schoolName != null">school_name = #{newInfo.schoolName},</if>
+            <if test="newInfo.teacherId != 0">teacher_id = #{newInfo.teacherId},</if>
+            <if test="newInfo.classId != 0">class_grade_id = #{newInfo.classId}</if>
+        </set>
+        <where>
+            <if test="oldInfo.id != 0">id = #{oldInfo.id}</if>
+            <if test="oldInfo.schoolName != null">AND school_name = #{oldInfo.schoolName}</if>
+            <if test="oldInfo.teacherId != 0">AND teacher_id = #{oldInfo.teacherId}</if>
+            <if test="oldInfo.classId != 0">AND class_grade_id = #{oldInfo.classId}</if>
+        </where>
+    </update>
 </mapper>

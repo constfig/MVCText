@@ -8,6 +8,7 @@ import cn.moquan.dao.StudentDao;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
 import cn.moquan.util.StatusNumber;
+import cn.moquan.util.ThrowExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,11 +45,19 @@ public class StudentService {
         return insertLinkedStudentTeacher(studentInfoList, result);
     }
 
-    public CommonResponseBody deleteStudent(int id) {
-        boolean result = studentDao.deleteStudent(id);
+    public CommonResponseBody deleteStudentById(int id) {
+        boolean result = studentDao.deleteStudentById(id);
         ArrayList<Integer> idList = new ArrayList<>();
         idList.add(id);
         return deleteLinkedStudentTeacher(idList, result);
+    }
+
+    public CommonResponseBody deleteStudent(Student info) {
+        ThrowExceptionUtil.throwRollBackException(
+                studentDao.deleteStudent(info),
+                "删除学生信息失败, 请检查!"
+        );
+        return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
     public CommonResponseBody deleteStudents(List<Integer> studentIdList) {
