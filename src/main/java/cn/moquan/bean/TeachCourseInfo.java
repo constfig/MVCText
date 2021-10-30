@@ -25,6 +25,11 @@ public class TeachCourseInfo {
     public TeachCourseInfo() {
     }
 
+    public TeachCourseInfo(int id, int teacherId) {
+        this.id = id;
+        this.teacherId = teacherId;
+    }
+
     public TeachCourseInfo(String schoolName, String teacherName, String courseName) {
         this.teacherName = teacherName;
         this.courseName = courseName;
@@ -41,6 +46,8 @@ public class TeachCourseInfo {
         this.schoolName = schoolName;
     }
 
+
+
     public TeachCourseInfo(int id, int teacherId, String teacherName, String classroomRealId, String gradeName, String className, String courseName, String schoolName) {
         this.id = id;
         this.teacherId = teacherId;
@@ -50,20 +57,6 @@ public class TeachCourseInfo {
         this.className = className;
         this.courseName = courseName;
         this.schoolName = schoolName;
-    }
-
-    @Override
-    public String toString() {
-        return "TeachCourseInfo{" +
-                "id=" + id +
-                ", teacherId=" + teacherId +
-                ", teacherName='" + teacherName + '\'' +
-                ", classroomRealId='" + classroomRealId + '\'' +
-                ", gradeName='" + gradeName + '\'' +
-                ", className='" + className + '\'' +
-                ", courseName='" + courseName + '\'' +
-                ", schoolName='" + schoolName + '\'' +
-                '}';
     }
 
     public int getTeacherId() {
@@ -130,4 +123,16 @@ public class TeachCourseInfo {
         this.schoolName = schoolName;
     }
 
+    @Override
+    public String toString() {
+        return "TeachCourseInfo{" +
+                "id=" + id +
+                ", teacherName='" + teacherName + '\'' +
+                ", classroomRealId='" + classroomRealId + '\'' +
+                ", gradeName='" + gradeName + '\'' +
+                ", className='" + className + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", schoolName='" + schoolName + '\'' +
+                '}';
+    }
 }

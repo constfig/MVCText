@@ -125,8 +125,7 @@ public class TeacherService {
             // 删除授课信息表记录
             ThrowExceptionUtil.throwRollBackException(
                     teachCourseInfoService.deleteTeachCourseUseInfo(
-                        new TeachCourseInfo(teacherById.getSchoolName(),
-                                teacherById.getName(), teacherById.getTeachCourseName())),
+                        new TeachCourseInfo(0, id)),
                     "删除教师信息时, 删除班级教师关系失败, 请检查!"
             );
         }
