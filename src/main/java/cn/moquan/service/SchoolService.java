@@ -98,8 +98,10 @@ public class SchoolService {
         }
 
         // 更新学校信息
-        schoolDao.updateSchool(info, idList);
-
+        ThrowExceptionUtil.throwRollBackException(
+                schoolDao.updateSchool(info, idList),
+                "学校信息更新失败"
+        );
         return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
