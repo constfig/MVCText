@@ -6,6 +6,7 @@
 
     <!--
         private int id;
+        private int teacherId;
         private String teacherName;
         private String classroomRealId;
         private String gradeName;
@@ -15,6 +16,7 @@
     -->
 
 <!--    "id":"",-->
+<!--    "teacherId":"",-->
 <!--    "teacherName":"",-->
 <!--    "classroomRealId":"",-->
 <!--    "gradeName":"",-->
@@ -25,6 +27,7 @@
 
     <!--
         id	INT	PRIMARY KEY AUTO_INCREMENT	系统自增主键
+        teacher_id INT	PRIMARY KEY AUTO_INCREMENT	系统自增主键
         teacher_name	VARCHAR(20)	NOT NULL DEFAULT ""	教师名
         classroom_real_id	VARCHAR(10)	NOT NULL DEFAULT "",	教室号(学校内部)
         grade_name	VARCHAR(10)	NOT NULL DEFAULT "",	级名

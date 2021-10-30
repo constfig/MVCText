@@ -14,6 +14,7 @@ public class TeachCourseInfo {
     * */
 
     private int id;
+    private int teacherId;
     private String teacherName;
     private String classroomRealId;
     private String gradeName;
@@ -38,6 +39,39 @@ public class TeachCourseInfo {
         this.className = className;
         this.courseName = courseName;
         this.schoolName = schoolName;
+    }
+
+    public TeachCourseInfo(int id, int teacherId, String teacherName, String classroomRealId, String gradeName, String className, String courseName, String schoolName) {
+        this.id = id;
+        this.teacherId = teacherId;
+        this.teacherName = teacherName;
+        this.classroomRealId = classroomRealId;
+        this.gradeName = gradeName;
+        this.className = className;
+        this.courseName = courseName;
+        this.schoolName = schoolName;
+    }
+
+    @Override
+    public String toString() {
+        return "TeachCourseInfo{" +
+                "id=" + id +
+                ", teacherId=" + teacherId +
+                ", teacherName='" + teacherName + '\'' +
+                ", classroomRealId='" + classroomRealId + '\'' +
+                ", gradeName='" + gradeName + '\'' +
+                ", className='" + className + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", schoolName='" + schoolName + '\'' +
+                '}';
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
     public int getId() {
@@ -96,16 +130,4 @@ public class TeachCourseInfo {
         this.schoolName = schoolName;
     }
 
-    @Override
-    public String toString() {
-        return "TeachCourseInfo{" +
-                "id=" + id +
-                ", teacherName='" + teacherName + '\'' +
-                ", classroomRealId='" + classroomRealId + '\'' +
-                ", gradeName='" + gradeName + '\'' +
-                ", className='" + className + '\'' +
-                ", courseName='" + courseName + '\'' +
-                ", schoolName='" + schoolName + '\'' +
-                '}';
-    }
 }
