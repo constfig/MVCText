@@ -94,7 +94,7 @@ public class SchoolService {
             newClassroom.setSchoolName(newSchoolName);
             Classroom targetClassroom = new Classroom();
             targetClassroom.setSchoolName(oldSchoolName);
-            classroomService.updateClassGrade(newClassGrade, targetClassGrade);
+            classroomService.updateClassroomCommon(newClassroom, targetClassroom);
         }
 
         // 更新学校信息
