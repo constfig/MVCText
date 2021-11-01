@@ -156,4 +156,8 @@ public class ClassroomService {
 
         return true;
     }
+
+    public boolean updateClassroomCommon(Classroom newInfo, Classroom oldInfo) {
+        return classroomDao.updateClassroomCommon(newInfo, oldInfo);
+    }
 }

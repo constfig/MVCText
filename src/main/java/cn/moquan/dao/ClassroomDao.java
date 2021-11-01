@@ -24,4 +24,6 @@ public interface ClassroomDao {
     boolean updateClassGrade(@Param("newInfo")ClassGrade newInfo, @Param("oldInfo") ClassGrade oldInfo);
 
     boolean deleteClassroom(Classroom info);
+
+    boolean updateClassroomCommon(@Param("newInfo") Classroom newInfo, @Param("oldInfo") Classroom oldInfo);
 }

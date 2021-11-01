@@ -58,41 +58,13 @@ public class TeacherService {
             // 获取教师原信息
             Teacher oldTeacherInfo = getTeacherById(id);
 
-            // 两个都不为null 都更新
-            if (newTeacherName != null && newTeachCourseName != null) {
-
-                /*
-                 * 1. 根据教师信息获取班级信息
-                 * 2. 通过班级教师关系获取唯一授课信息
-                 * 3. 进行更新操作
-                 * */
-
-                /*
-                 * 1. 更新数据库, 建立唯一联系
-                 * */
-
-                // 根据教师信息更新授课信息
-                updateTeachCourseInfoFlag = teachCourseInfoService.updateClassGrade(
-                        new TeachCourseInfo(newSchoolName, newTeacherName, newTeachCourseName),
-                        new TeachCourseInfo(oldTeacherInfo.getSchoolName(),
-                                oldTeacherInfo.getName(), oldTeacherInfo.getTeachCourseName()));
-
-            } else {
-                // 谁不为空更新谁
-                if (newTeacherName != null) {
-                    updateTeachCourseInfoFlag = teachCourseInfoService.updateClassGrade(
-                            new TeachCourseInfo(newSchoolName, newTeacherName, null),
-                            new TeachCourseInfo(oldTeacherInfo.getSchoolName(),
-                                    oldTeacherInfo.getName(), oldTeacherInfo.getTeachCourseName()));
-                }
-
-                if (newTeachCourseName != null) {
-                    updateTeachCourseInfoFlag = teachCourseInfoService.updateClassGrade(
-                            new TeachCourseInfo(newSchoolName, null, newTeachCourseName),
-                            new TeachCourseInfo(oldTeacherInfo.getSchoolName(),
-                                    oldTeacherInfo.getName(), oldTeacherInfo.getTeachCourseName()));
-                }
-            }
+            TeachCourseInfo newTeachCourseInfo = new TeachCourseInfo();
+            newTeachCourseInfo.setSchoolName(newSchoolName);
+            newTeachCourseInfo.setTeacherName(newTeacherName);
+            newTeachCourseInfo.setCourseName(newTeachCourseName);
+            TeachCourseInfo oldTeachCourseInfo = new TeachCourseInfo();
+            oldTeachCourseInfo.setTeacherId(id);
+            updateTeachCourseInfoFlag = teachCourseInfoService.updateClassGrade(newTeachCourseInfo, oldTeachCourseInfo);
 
             ThrowExceptionUtil.throwRollBackException(updateTeachCourseInfoFlag,
                     "更新教师信息时, 更新授课信息失败, 请检查!");

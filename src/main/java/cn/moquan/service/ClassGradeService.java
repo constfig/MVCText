@@ -44,6 +44,27 @@ public class ClassGradeService {
 
     public boolean insertClassGrade(List<ClassGrade> classGradeInfoList) {
 
+        for(ClassGrade nowClassGrade : classGradeInfoList){
+
+            String nowSchoolName = nowClassGrade.getGradeName();
+            String nowClassroomRealId = nowClassGrade.getClassroomRealId();
+            String nowClassName = nowClassGrade.getClassName();
+            String nowGradeName = nowClassGrade.getGradeName();
+
+            Classroom oldClassroom = new Classroom();
+            oldClassroom.setSchoolName(nowSchoolName);
+            oldClassroom.setRealId(nowClassroomRealId);
+
+            Classroom newClassroom = new Classroom();
+            newClassroom.setClassName(nowClassName);
+            newClassroom.setGradeName(nowGradeName);
+
+            ThrowExceptionUtil.throwRollBackException(
+                    classroomService.updateClassroomCommon(newClassroom, oldClassroom),
+                    "添加班级时,更新教室信息失败, 请检查!"
+            );
+        }
+
         return classGradeDao.insertClassGrade(classGradeInfoList);
     }
 
@@ -183,7 +204,6 @@ public class ClassGradeService {
                 ThrowExceptionUtil.throwRollBackException(
                         classroomService.updateClassGrade(nullGradeInfo, classGradeOld),
                         "更新班级信息时, 更新教室信息失败, 请检查!");
-
                 // 更新 新教室信息
                 Classroom classroomInfo = new Classroom();
                 classroomInfo.setSchoolName(classGradeInfo.getSchoolName());
