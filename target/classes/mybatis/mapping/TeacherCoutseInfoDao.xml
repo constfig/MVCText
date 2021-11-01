@@ -1,0 +1,159 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.moquan.dao.TeachCourseInfoDao">
+
+    <!--
+        private int id;
+        private int teacherId;
+        private String teacherName;
+        private String classroomRealId;
+        private String gradeName;
+        private String className;
+        private String courseName;
+        private String schoolName;
+    -->
+
+<!--    "id":"",-->
+<!--    "teacherId":"",-->
+<!--    "teacherName":"",-->
+<!--    "classroomRealId":"",-->
+<!--    "gradeName":"",-->
+<!--    "className":"",-->
+<!--    "courseName":"",-->
+<!--    "schoolName":""-->
+
+
+    <!--
+        id	INT	PRIMARY KEY AUTO_INCREMENT	系统自增主键
+        teacher_id INT	PRIMARY KEY AUTO_INCREMENT	系统自增主键
+        teacher_name	VARCHAR(20)	NOT NULL DEFAULT ""	教师名
+        classroom_real_id	VARCHAR(10)	NOT NULL DEFAULT "",	教室号(学校内部)
+        grade_name	VARCHAR(10)	NOT NULL DEFAULT "",	级名
+        class_name	VARCHAR(10)	NOT NULL DEFAULT "",	班名
+        course_name	VARCHAR(30)		教授课程名
+        school_name	VARCHAR(30)	NOT NULL DEFAULT "",	学校名
+    -->
+
+    <resultMap id="teachInfo" type="cn.moquan.bean.TeachCourseInfo">
+        <id property="id" column="id"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="classroomRealId" column="classroom_real_id"/>
+        <result property="gradeName" column="grade_name"/>
+        <result property="className" column="class_name"/>
+        <result property="courseName" column="course_name"/>
+        <result property="schoolName" column="school_name"/>
+    </resultMap>
+
+    <select id="getTeachCourseInfo" resultMap="teachInfo">
+        select * from teach_course_info
+        <where>
+            <if test="id != 0">id = #{id}</if>
+            <if test="schoolName != null &amp;&amp; schoolName != &quot;&quot;">
+                AND school_name = #{schoolName}
+            </if>
+            <if test="gradeName != null &amp;&amp; gradeName != &quot;&quot;">
+                AND grade_name = #{gradeName}
+            </if>
+            <if test="className != null &amp;&amp; className != &quot;&quot;">
+                AND class_name = #{className}
+            </if>
+            <if test="teacherId != 0">
+                AND teacher_id = #{teacherId}
+            </if>
+            <if test="courseName != null &amp;&amp; courseName != &quot;&quot;">
+                AND course_name = #{courseName}
+            </if>
+            <if test="teacherName != null &amp;&amp; teacherName != &quot;&quot;">
+                AND teacher_name = #{teacherName}
+            </if>
+            <if test="classroomRealId != null &amp;&amp; classroomRealId != &quot;&quot;">
+                AND classroom_real_id =#{classroomRealId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertTeachCourseInfo">
+        insert into teach_course_info(teacher_name, teacher_id, classroom_real_id, grade_name, class_name, course_name, school_name)
+        values
+        <foreach collection="list" separator=","
+                 index="index" item="info">
+            (
+                #{info.teacherName},
+                #{teacherid},
+                #{info.classroomRealId},
+                #{info.gradeName},
+                #{info.className},
+                #{info.courseName},
+                #{info.schoolName}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateTeachCourseInfo">
+        update teach_course_info
+        <set>
+            <if test="teachInfo.teacherName != null &amp;&amp; teachInfo.teacherName != &quot;&quot;">teacher_name = #{teachInfo.teacherName},</if>
+            <if test="teachInfo.classroomRealId != null &amp;&amp; teachInfo.classroomRealId != &quot;&quot;">classroom_real_id = #{teachInfo.classroomRealId},</if>
+            <if test="teacherId != 0">teacher_id = #{teacherId},</if>
+            <if test="teachInfo.gradeName != null &amp;&amp; teachInfo.gradeName != &quot;&quot;">grade_name = #{teachInfo.gradeName},</if>
+            <if test="teachInfo.className != null &amp;&amp; teachInfo.className != &quot;&quot;">class_name = #{teachInfo.className},</if>
+            <if test="teachInfo.courseName != null &amp;&amp; teachInfo.courseName != &quot;&quot;">course_name = #{teachInfo.courseName},</if>
+            <if test="teachInfo.schoolName != null &amp;&amp; teachInfo.schoolName != &quot;&quot;">school_name = #{teachInfo.schoolName},</if>
+        </set>
+        where id in (
+        <foreach collection="idList" item="id" index="index" separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
+
+    <delete id="deleteTeachCourseInfo">
+        delete from teach_course_info
+        where id in(
+        <foreach collection="list" index="index" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="updateClassGrade">
+        update teach_course_info
+        <set>
+            <if test="newInfo.schoolName != null">school_name = #{newInfo.schoolName},</if>
+            <if test="newInfo.teacherName != null">teacher_name = #{newInfo.teacherName},</if>
+            <if test="teacherId != 0">teacher_id = #{teacherId},</if>
+            <if test="newInfo.courseName != null">course_name = #{newInfo.courseName},</if>
+            <if test="newInfo.classroomRealId != null">classroom_real_id = #{newInfo.classroomRealId},</if>
+            <if test="newInfo.gradeName != null">grade_name = #{newInfo.gradeName},</if>
+            <if test="newInfo.className != null">class_name = #{newInfo.className}</if>
+        </set>
+        <where>
+            <if test="id != 0">id = #{id}</if>
+            <if test="oldInfo.schoolName != null">AND school_name = #{oldInfo.schoolName}</if>
+            <if test="oldInfo.teacherName != null">AND teacher_name = #{oldInfo.teacherName}</if>
+            <if test="teacherId != 0">AND teacher_id = #{teacherId}</if>
+            <if test="oldInfo.courseName != null">AND course_name = #{oldInfo.courseName}</if>
+            <if test="oldInfo.classroomRealId != null">AND classroom_real_id = #{oldInfo.classroomRealId}</if>
+            <if test="oldInfo.gradeName != null">AND grade_name = #{oldInfo.gradeName}</if>
+            <if test="oldInfo.className != null">AND class_name = #{oldInfo.className}</if>
+        </where>
+    </update>
+
+    <delete id="deleteTeachCourseUseInfo">
+        delete from teach_course_info
+        <where>
+            <if test="id != 0">id = #{id}</if>
+            <if test="schoolName != null">school_name = #{schoolName}</if>
+            <if test="classroomRealId != null">AND classroom_real_id = #{classroomRealId}</if>
+            <if test="teacherName != null">AND teacher_name = #{teacherName}</if>
+            <if test="teacherId != 0">AND teacher_id = #{teacherId}</if>
+            <if test="courseName != null">AND course_name = #{courseName}</if>
+            <if test="gradeName != null">AND grade_name = #{gradeName}</if>
+            <if test="className != null">AND class_name = #{className}</if>
+        </where>
+    </delete>
+
+</mapper>
