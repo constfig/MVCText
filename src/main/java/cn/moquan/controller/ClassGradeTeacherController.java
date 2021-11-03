@@ -80,7 +80,8 @@ public class ClassGradeTeacherController {
 
         CommonResponseBody responseBody;
 
-        if(classGradeTeacherService.deleteClassGradeTeachers(classGradeTeacherBeanUtil.getInfo(), classGradeTeacherBeanUtil.getIdList())){
+        if(classGradeTeacherService.deleteClassGradeTeachers(
+                classGradeTeacherBeanUtil.getInfo(), classGradeTeacherBeanUtil.getIdList())){
             responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
             responseBody = new CommonResponseBody(StatusNumber.FAILED);

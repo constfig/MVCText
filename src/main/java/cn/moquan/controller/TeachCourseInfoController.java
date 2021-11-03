@@ -88,4 +88,15 @@ public class TeachCourseInfoController {
     
         return responseBody;
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/create")
+    public CommonResponseBody createTeachInfo(){
+    
+        CommonResponseBody responseBody;
+
+        teachCourseInfoService.create();
+    
+        return responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
+    }
 }

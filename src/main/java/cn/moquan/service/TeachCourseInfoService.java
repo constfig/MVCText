@@ -36,14 +36,15 @@ public class TeachCourseInfoService {
         return teachCourseInfoDao.deleteTeachCourseInfo(idList);
     }
 
-    public boolean updateClassGrade(ClassGrade newInfo, ClassGrade oldInfo) {
-        return teachCourseInfoDao.updateClassGrade(newInfo, oldInfo);
-    }
     public boolean updateClassGrade(TeachCourseInfo newInfo, TeachCourseInfo oldInfo) {
         return teachCourseInfoDao.updateClassGrade(newInfo, oldInfo);
     }
 
     public boolean deleteTeachCourseUseInfo(TeachCourseInfo info) {
         return teachCourseInfoDao.deleteTeachCourseUseInfo(info);
+    }
+
+    public boolean create() {
+        return teachCourseInfoDao.create();
     }
 }

@@ -46,13 +46,26 @@ public class StudentService {
     }
 
     public CommonResponseBody deleteStudentById(int id) {
-        boolean result = studentDao.deleteStudentById(id);
         ArrayList<Integer> idList = new ArrayList<>();
         idList.add(id);
-        return deleteLinkedStudentTeacher(idList, result);
+        deleteLinkedStudentTeacher(idList, true);
+
+        if (!studentDao.deleteStudentById(id)) {
+            return new CommonResponseBody(StatusNumber.FAILED);
+        }
+
+        return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
     public CommonResponseBody deleteStudent(Student info) {
+        List<Student> studentList = getStudent(info);
+        ArrayList<Integer> idList = new ArrayList<>();
+        for(Student s : studentList){
+            idList.add(s.getId());
+        }
+
+        deleteLinkedStudentTeacher(idList, true);
+
         ThrowExceptionUtil.throwRollBackException(
                 studentDao.deleteStudent(info),
                 "删除学生信息失败, 请检查!"

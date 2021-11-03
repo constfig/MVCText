@@ -17,6 +17,10 @@ public interface CommonService {
     * 删除级联
     * 更新级联
     *
+    * 级联的都拆分成小块
+    *
+    * 删除更新前的检查
+    *
     * */
 
 }

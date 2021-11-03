@@ -82,7 +82,7 @@
                  index="index" item="info">
             (
                 #{info.teacherName},
-                #{teacherid},
+                #{info.teacherid},
                 #{info.classroomRealId},
                 #{info.gradeName},
                 #{info.className},
@@ -97,7 +97,7 @@
         <set>
             <if test="teachInfo.teacherName != null &amp;&amp; teachInfo.teacherName != &quot;&quot;">teacher_name = #{teachInfo.teacherName},</if>
             <if test="teachInfo.classroomRealId != null &amp;&amp; teachInfo.classroomRealId != &quot;&quot;">classroom_real_id = #{teachInfo.classroomRealId},</if>
-            <if test="teacherId != 0">teacher_id = #{teacherId},</if>
+            <if test="teachInfo.teacherId != 0">teacher_id = #{teachInfo.teacherId},</if>
             <if test="teachInfo.gradeName != null &amp;&amp; teachInfo.gradeName != &quot;&quot;">grade_name = #{teachInfo.gradeName},</if>
             <if test="teachInfo.className != null &amp;&amp; teachInfo.className != &quot;&quot;">class_name = #{teachInfo.className},</if>
             <if test="teachInfo.courseName != null &amp;&amp; teachInfo.courseName != &quot;&quot;">course_name = #{teachInfo.courseName},</if>
@@ -124,17 +124,17 @@
         <set>
             <if test="newInfo.schoolName != null">school_name = #{newInfo.schoolName},</if>
             <if test="newInfo.teacherName != null">teacher_name = #{newInfo.teacherName},</if>
-            <if test="teacherId != 0">teacher_id = #{teacherId},</if>
+            <if test="newInfo.teacherId != 0">teacher_id = #{newInfo.teacherId},</if>
             <if test="newInfo.courseName != null">course_name = #{newInfo.courseName},</if>
             <if test="newInfo.classroomRealId != null">classroom_real_id = #{newInfo.classroomRealId},</if>
             <if test="newInfo.gradeName != null">grade_name = #{newInfo.gradeName},</if>
             <if test="newInfo.className != null">class_name = #{newInfo.className}</if>
         </set>
         <where>
-            <if test="id != 0">id = #{id}</if>
+            <if test="oldInfo.id != 0">id = #{oldInfo.id}</if>
             <if test="oldInfo.schoolName != null">AND school_name = #{oldInfo.schoolName}</if>
             <if test="oldInfo.teacherName != null">AND teacher_name = #{oldInfo.teacherName}</if>
-            <if test="teacherId != 0">AND teacher_id = #{teacherId}</if>
+            <if test="oldInfo.teacherId != 0">AND teacher_id = #{oldInfo.teacherId}</if>
             <if test="oldInfo.courseName != null">AND course_name = #{oldInfo.courseName}</if>
             <if test="oldInfo.classroomRealId != null">AND classroom_real_id = #{oldInfo.classroomRealId}</if>
             <if test="oldInfo.gradeName != null">AND grade_name = #{oldInfo.gradeName}</if>
@@ -155,5 +155,11 @@
             <if test="className != null">AND class_name = #{className}</if>
         </where>
     </delete>
+
+    <insert id="create">
+        insert into teach_course_info(teacher_name, teacher_id, classroom_real_id, grade_name, class_name, course_name, school_name)
+        values
+        (#{teacherName}, #{teacherId}, #{classroomRealId}, #{gradeName}, #{className}, #{courseName}, #{schoolName});
+    </insert>
 
 </mapper>

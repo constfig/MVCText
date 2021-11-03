@@ -42,7 +42,7 @@ public class ClassroomService {
         for (int id : idList) {
             // 级联更新其他信息
             updateOtherInfo(id, info);
-            
+
         }// for end
 
         ThrowExceptionUtil.throwRollBackException(
@@ -78,7 +78,7 @@ public class ClassroomService {
 
         List<Classroom> classroomList = getClassroom(info);
 
-        for(Classroom c : classroomList){
+        for (Classroom c : classroomList) {
             clearClassroomInfo(info.getId());
         }
 
@@ -92,17 +92,20 @@ public class ClassroomService {
 
     public boolean updateClassroomCommon(Classroom newInfo, Classroom oldInfo) {
 
-        List<Classroom> classroomList = getClassroom(oldInfo);
-
-        for(Classroom c : classroomList){
-            updateOtherInfo(oldInfo.getId(), newInfo);
+        if (newInfo.getId() != -1) {
+            List<Classroom> classroomList = getClassroom(oldInfo);
+            for (Classroom c : classroomList) {
+                updateOtherInfo(c.getId(), newInfo);
+            }
+        } else {
+            newInfo.setId(0);
         }
 
         return classroomDao.updateClassroomCommon(newInfo, oldInfo);
     }
 
 
-    public void updateOtherInfo(int targetId, Classroom newClassroomInfo){
+    public void updateOtherInfo(int targetId, Classroom newClassroomInfo) {
         // 获取教室信息
         Classroom oldInfo = getClassroom(new Classroom(targetId)).get(0);
         String newRealId = newClassroomInfo.getRealId();
@@ -117,10 +120,7 @@ public class ClassroomService {
         targetStudentInfo.setSchoolName(oldInfo.getSchoolName());
         targetStudentInfo.setClassroomRealId(oldInfo.getRealId());
         // 更新
-        ThrowExceptionUtil.throwRollBackException(
-                studentService.updateStudentCommon(newStudentInfo, targetStudentInfo),
-                "更新教室信息(教室号)时, 学生信息更新失败(教室号), 请检查!"
-        );
+        cascadingUpdateStudent(newStudentInfo, targetStudentInfo);
 
         // 更新班级信息中的教室号
         ClassGrade newClassGrade = new ClassGrade();
@@ -130,10 +130,7 @@ public class ClassroomService {
         targetClassGrade.setClassroomRealId(oldInfo.getRealId());
         targetClassGrade.setSchoolName(oldInfo.getSchoolName());
         // update
-        ThrowExceptionUtil.throwRollBackException(
-                classGradeService.updateClassGradeCommon(newClassGrade, targetClassGrade),
-                "更新教室信息(教室号)时, 班级信息更新失败(教室号), 请检查!"
-        );
+        cascadingUpdateClassGrade(newClassGrade, targetClassGrade);
 
         // 更新授课信息中的教室号
         TeachCourseInfo newTeachCourseInfo = new TeachCourseInfo();
@@ -142,17 +139,16 @@ public class ClassroomService {
         TeachCourseInfo targetTeachCourseInfo = new TeachCourseInfo();
         targetTeachCourseInfo.setSchoolName(oldInfo.getSchoolName());
         targetTeachCourseInfo.setClassroomRealId(oldInfo.getRealId());
-        ThrowExceptionUtil.throwRollBackException(
-                teachCourseInfoService.updateClassGrade(newTeachCourseInfo, targetTeachCourseInfo),
-                "更新教室信息(教室号)时, 授课信息更新失败(教室号), 请检查!"
-        );
+        // update
+        cascadingUpdateTeachCourseInfo(newTeachCourseInfo, targetTeachCourseInfo);
+
     }
 
-    public void clearClassroomInfo(int id){
+    public void clearClassroomInfo(int id) {
         // 获取教室信息
         Classroom oldInfo = getClassroom(new Classroom(id)).get(0);
 
-        if("".equals(oldInfo.getGradeName()) || "".equals(oldInfo.getClassName())) {
+        if ("".equals(oldInfo.getGradeName()) || "".equals(oldInfo.getClassName())) {
             return;
         }
 
@@ -160,25 +156,68 @@ public class ClassroomService {
         Student newStudentInfo = new Student("");
         Student targetStudent = new Student(oldInfo.getGradeName(),
                 oldInfo.getClassName(), oldInfo.getSchoolName());
-        ThrowExceptionUtil.throwRollBackException(
-                studentService.updateStudentCommon(newStudentInfo, targetStudent),
-                "删除教室信息时, 更新学生信息失败, 请检查!"
-        );
+
+        cascadingUpdateStudent(newStudentInfo, targetStudent);
 
         // 更新班级信息
         ClassGrade newClassGradeInfo = new ClassGrade();
         newClassGradeInfo.setClassroomRealId("");
         ClassGrade targetClassGrade = new ClassGrade(oldInfo.getGradeName(),
                 oldInfo.getClassName(), oldInfo.getSchoolName());
-        ThrowExceptionUtil.throwRollBackException(
-                classGradeService.updateClassGradeCommon(newClassGradeInfo, targetClassGrade),
-                "删除教室信息时, 更新班级信息失败, 请检查!"
-        );
+        cascadingUpdateClassGrade(newClassGradeInfo, targetClassGrade);
 
         // 删除授课信息
         TeachCourseInfo teachCourseInfo = new TeachCourseInfo();
         teachCourseInfo.setClassroomRealId(oldInfo.getRealId());
         teachCourseInfo.setSchoolName(oldInfo.getSchoolName());
-        teachCourseInfoService.deleteTeachCourseUseInfo(teachCourseInfo);
+        cascadingDeleteClassGradeTeacher(teachCourseInfo);
+    }
+
+
+    public void cascadingUpdateStudent(Student newStudentInfo, Student targetStudent){
+        if(studentService.getStudent(targetStudent).size() > 0){
+            ThrowExceptionUtil.throwRollBackException(
+                    studentService.updateStudentCommon(newStudentInfo, targetStudent),
+                    "更新教室信息时, 更新学生信息失败, 请检查!"
+            );
+        }
+    }
+
+    public void cascadingUpdateTeachCourseInfo(TeachCourseInfo newTeachCourseInfo, TeachCourseInfo targetTeachCourseInfo){
+        if(teachCourseInfoService.getTeachCourseInfo(targetTeachCourseInfo).size() > 0){
+            ThrowExceptionUtil.throwRollBackException(
+                    teachCourseInfoService.updateClassGrade(newTeachCourseInfo, targetTeachCourseInfo),
+                    "更新教室信息(教室号)时, 授课信息更新失败(教室号), 请检查!"
+            );
+        }
+    }
+
+    public void cascadingUpdateClassGrade(ClassGrade newClassGradeInfo,ClassGrade targetClassGrade){
+        if(classGradeService.getClassGrade(targetClassGrade).size() > 0){
+            ThrowExceptionUtil.throwRollBackException(
+                    classGradeService.updateClassGradeCommon(newClassGradeInfo, targetClassGrade),
+                    "更新教室信息时, 更新班级信息失败, 请检查!"
+            );
+        }
+    }
+
+    public void cascadingDeleteClassGradeTeacher(TeachCourseInfo teachCourseInfo){
+        if(teachCourseInfoService.getTeachCourseInfo(teachCourseInfo).size() > 0){
+            ThrowExceptionUtil.throwRollBackException(
+                    teachCourseInfoService.deleteTeachCourseUseInfo(teachCourseInfo),
+                    "更新教室信息时, 更新班级信息失败, 请检查!"
+            );
+        }
+    }
+
+    /**
+     * 进行更新时不会进行级联更新
+     * @param newInfo 需要更新的参数
+     * @param oldInfo 寻找唯一目标的参数
+     * @return 是否更新成功
+     */
+    public boolean updateClassroomNotCascading(Classroom newInfo, Classroom oldInfo) {
+
+        return classroomDao.updateClassroomCommon(newInfo, oldInfo);
     }
 }

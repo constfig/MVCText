@@ -47,8 +47,6 @@ public class TeacherService {
 
     public CommonResponseBody updateTeachers(Teacher teacherInfo, List<Integer> idList) {
 
-        boolean updateTeachCourseInfoFlag = true;
-
         for (int id : idList) {
 
             updateOtherInfo(id, teacherInfo);

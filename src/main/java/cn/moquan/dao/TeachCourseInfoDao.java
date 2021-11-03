@@ -21,9 +21,9 @@ public interface TeachCourseInfoDao {
 
     boolean deleteTeachCourseInfo(List<Integer> idList);
 
-    boolean updateClassGrade(@Param("newInfo") ClassGrade newInfo,@Param("oldInfo") ClassGrade oldInfo);
-
     boolean updateClassGrade(@Param("newInfo") TeachCourseInfo newInfo,@Param("oldInfo") TeachCourseInfo oldInfo);
 
     boolean deleteTeachCourseUseInfo(TeachCourseInfo info);
+
+    boolean create();
 }

@@ -3,7 +3,6 @@ package cn.moquan.service;
 import cn.moquan.bean.ClassGradeTeacher;
 import cn.moquan.dao.ClassGradeTeacherDao;
 import cn.moquan.util.ThrowExceptionUtil;
-import jdk.nashorn.internal.ir.IfNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
