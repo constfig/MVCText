@@ -175,7 +175,6 @@ public class ClassGradeService {
         Student newStudentInfo = new Student();
         newStudentInfo.setGradeName("");
         newStudentInfo.setClassName("");
-        newStudentInfo.setClassroomRealId("");
         Student targetStudentInfo = new Student();
         targetStudentInfo.setSchoolName(schoolName);
         targetStudentInfo.setGradeName(gradeName);
@@ -188,7 +187,6 @@ public class ClassGradeService {
         TeachCourseInfo newTeachCourseInfo = new TeachCourseInfo();
         newTeachCourseInfo.setGradeName("");
         newTeachCourseInfo.setClassName("");
-        newTeachCourseInfo.setClassroomRealId("");
         TeachCourseInfo targetTeachCourseInfo = new TeachCourseInfo();
         targetTeachCourseInfo.setSchoolName(schoolName);
         targetTeachCourseInfo.setGradeName(gradeName);
@@ -310,5 +308,10 @@ public class ClassGradeService {
         targetTeachCourseInfo.setClassroomRealId(oldClassroomRealId);
         // 级联更新授课信息
         teachCourseInfoService.updateClassGrade(newTeachCourseInfo, targetTeachCourseInfo);
+    }
+
+    public boolean updateClassGradeNotCascading(ClassGrade newInfo, ClassGrade oldInfo) {
+
+        return classGradeDao.updateClassGradeCommon(newInfo, oldInfo);
     }
 }
