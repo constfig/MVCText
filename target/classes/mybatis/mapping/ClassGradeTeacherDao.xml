@@ -86,17 +86,6 @@
                 )
             </if>
     </delete>
-    
-    <delete id="deleteClassGradeTeacherUseInfo">
-        delete from class_grade_teacher
-        where school_name = #{schoolName}
-            <if test="teacherId == 0">
-                AND class_grade_id = #{classId}
-            </if>
-            <if test="classId == 0">
-                AND teacher_id = #{teacherId}
-            </if>
-    </delete>
 
     <delete id="deleteClassGradeTeacher">
         delete from class_grade_teacher
@@ -104,6 +93,18 @@
         <if test="teacherId != 0">
             AND teacher_id = #{teacherId}
         </if>
+        <if test="classId != 0">
+            AND class_grade_id = #{classId}
+        </if>
+    </delete>
+
+    <delete id="deleteClassGradeTeacherUseInfo">
+        delete from class_grade_teacher
+        where school_name = #{schoolName}
+        <if test="teacherId != 0">
+            AND teacher_id = #{teacherId}
+        </if>
+
         <if test="classId != 0">
             AND class_grade_id = #{classId}
         </if>

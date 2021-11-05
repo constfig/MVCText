@@ -1,9 +1,6 @@
 package cn.moquan.service;
 
-import cn.moquan.bean.ClassGradeTeacher;
-import cn.moquan.bean.StudentTeacher;
-import cn.moquan.bean.ClassGrade;
-import cn.moquan.bean.Student;
+import cn.moquan.bean.*;
 import cn.moquan.dao.StudentDao;
 import cn.moquan.util.CommonResponseBody;
 import cn.moquan.util.RollBackException;
@@ -32,6 +29,8 @@ public class StudentService {
     ClassGradeService classGradeService;
     @Autowired
     ClassGradeTeacherService classGradeTeacherService;
+    @Autowired
+    TeacherService teacherService;
 
     public List<Student> getStudent(Student studentInfo) {
 
@@ -60,16 +59,19 @@ public class StudentService {
     public CommonResponseBody deleteStudent(Student info) {
         List<Student> studentList = getStudent(info);
         ArrayList<Integer> idList = new ArrayList<>();
-        for(Student s : studentList){
+        for (Student s : studentList) {
             idList.add(s.getId());
         }
 
         deleteLinkedStudentTeacher(idList, true);
 
-        ThrowExceptionUtil.throwRollBackException(
-                studentDao.deleteStudent(info),
-                "删除学生信息失败, 请检查!"
-        );
+        if(studentList.size() > 0){
+            ThrowExceptionUtil.throwRollBackException(
+                    studentDao.deleteStudent(info),
+                    "删除学生信息失败, 请检查!"
+            );
+        }
+
         return new CommonResponseBody(StatusNumber.SUCCESS);
     }
 
@@ -191,8 +193,6 @@ public class StudentService {
      */
     public CommonResponseBody deleteLinkedStudentTeacher(List<Integer> idList, boolean result) {
 
-        List<Student> errorList = new ArrayList<Student>();
-
         for (int id : idList) {
             // 设置StudentTeacher信息
             StudentTeacher info = new StudentTeacher();
@@ -206,13 +206,9 @@ public class StudentService {
             info.setSchoolName(studentById.getSchoolName());
 
             // 根据 学生id 删除 关系
-            if (!studentTeacherService.deleteStudentTeacher(info, null)) {
-                errorList.add(studentById);
+            if(studentTeacherService.getStudentTeacher(info).size() > 0){
+                studentTeacherService.deleteStudentTeacher(info, null);
             }
-        }
-
-        if (errorList.size() > 0) {
-            throw new RollBackException("", new CommonResponseBody(StatusNumber.FAILED, "学生关联删除失败", errorList));
         }
 
         if (!result) {
@@ -224,6 +220,85 @@ public class StudentService {
     }
 
     public boolean updateStudentCommon(Student newInfo, Student oldInfo) {
+
+        List<Student> studentList = getStudent(oldInfo);
+        String schoolName = oldInfo.getSchoolName();
+        String gradeName = oldInfo.getGradeName();
+        String className = oldInfo.getClassName();
+
+        for (Student s : studentList) {
+            StudentTeacher studentTeacher = new StudentTeacher(s.getId(), 0, schoolName);
+            // 通过学生信息 删除
+            if (studentTeacherService.getStudentTeacher(studentTeacher).size() > 0) {
+                studentTeacherService.deleteStudentTeacherUseInfo(studentTeacher);
+            }
+        }
+
+        // 添加关联关系
+        for (Student s : studentList) {
+            // 通过班级获取教师
+            ClassGrade classGrade = new ClassGrade(gradeName, className, schoolName);
+            List<ClassGrade> classGradeList = classGradeService.getClassGrade(classGrade);
+            if (classGradeList.size() == 0) {
+                // 没有班级不添加
+                break;
+            }
+            // 查找关联
+            classGrade = classGradeList.get(0);
+            List<ClassGradeTeacher> classGradeTeacherList = classGradeTeacherService.getClassGradeTeacher(
+                    new ClassGradeTeacher(0, classGrade.getId(), 0, classGrade.getSchoolName()));
+
+            // 使用班级教师关联添加学生教师关联
+            for (ClassGradeTeacher info : classGradeTeacherList) {
+                // 添加关系
+                if (studentTeacherService.getStudentTeacher(
+                        new StudentTeacher(s.getId(), info.getTeacherId(), info.getSchoolName())).size() == 0) {
+                    studentTeacherService.insertOnceStudentTeacher(
+                            new StudentTeacher(s.getId(), info.getTeacherId(), info.getSchoolName()));
+                }
+            }
+        }
+
+//        // 如果只更新班级号, 不进行 学生教师关系级联
+//        if(!(newInfo.getClassName() == null && newInfo.getGradeName() == null && newInfo.getClassroomRealId() != null)){
+//            // 检查信息完整 不完整不需要进行删除关系
+//            if(gradeName != null && !"".equals(gradeName) && className != null && !"".equals(className)){
+//                for(Student s : studentList){
+//                    // 通过学生信息 删除
+//                    StudentTeacher studentTeacher = new StudentTeacher(s.getId(), 0, schoolName);
+//                    studentTeacherService.deleteStudentTeacherUseInfo(studentTeacher);
+//                }
+//            }
+//
+//            // 添加关联关系
+//            for(Student s : studentList){
+//                // 通过班级获取教师
+//                ClassGrade classGrade = new ClassGrade(gradeName, className, schoolName);
+//                List<ClassGrade> classGradeList = classGradeService.getClassGrade(classGrade);
+//                if (classGradeList.size() == 0){
+//                    // 没有班级不添加
+//                    break;
+//                }
+//                // 查找关联
+//                classGrade = classGradeList.get(0);
+//                List<ClassGradeTeacher> classGradeTeacherList = classGradeTeacherService.getClassGradeTeacher(
+//                        new ClassGradeTeacher(0, classGrade.getId(), 0, classGrade.getSchoolName()));
+//
+//                // 使用班级教师关联添加学生教师关联
+//                for (ClassGradeTeacher info: classGradeTeacherList){
+//                    // 添加关系
+//                    studentTeacherService.insertOnceStudentTeacher(
+//                            new StudentTeacher(0, s.getId(), info.getTeacherId(), info.getSchoolName()));
+//                }
+//            }
+//        }
+
+        // 更新学生信息
+        return studentDao.updateStudentCommon(newInfo, oldInfo);
+    }
+
+    public boolean updateStudentCommonNotCascade(Student newInfo, Student oldInfo) {
+
         return studentDao.updateStudentCommon(newInfo, oldInfo);
     }
 

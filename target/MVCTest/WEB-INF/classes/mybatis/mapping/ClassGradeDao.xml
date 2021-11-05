@@ -40,7 +40,7 @@
         </where>
     </select>
 
-    <insert id="insertClassGrade">
+    <insert id="insertClassGrade" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into class_grade(grade_name, class_name, classroom_real_id, school_name)
         values
         <foreach collection="list" separator=","

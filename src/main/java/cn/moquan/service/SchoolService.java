@@ -64,7 +64,7 @@ public class SchoolService {
             newStudentInfo.setSchoolName(newSchoolName);
             Student targetStudent = new Student();
             targetStudent.setSchoolName(oldSchoolName);
-            studentService.updateStudentCommon(newStudentInfo, targetStudent);
+            studentService.updateStudentCommonNotCascade(newStudentInfo, targetStudent);
             // 更新学生教师信息
             StudentTeacher newStudentTeacher = new StudentTeacher();
             newStudentTeacher.setSchoolName(newSchoolName);

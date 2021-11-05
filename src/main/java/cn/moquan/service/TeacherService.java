@@ -47,10 +47,10 @@ public class TeacherService {
 
     public CommonResponseBody updateTeachers(Teacher teacherInfo, List<Integer> idList) {
 
-        for (int id : idList) {
-
-            updateOtherInfo(id, teacherInfo);
-
+        if ((teacherInfo.getName() != null) || (teacherInfo.getTeachCourseName() != null)) {
+            for (int id : idList) {
+                updateOtherInfo(id, teacherInfo);
+            }
         }
         ThrowExceptionUtil.throwRollBackException(
                 teacherDao.updateTeachers(teacherInfo, idList),
@@ -76,14 +76,16 @@ public class TeacherService {
 
         List<Teacher> teacherList = getTeacher(info);
 
-        for(Teacher teacher : teacherList){
+        for (Teacher teacher : teacherList) {
             clearTeacherInfo(teacher.getId());
         }
 
-        ThrowExceptionUtil.throwRollBackException(
-                teacherDao.deleteTeacher(info),
-                "删除教师信息失败, 请检查!"
-        );
+        if (teacherList.size() > 0) {
+            ThrowExceptionUtil.throwRollBackException(
+                    teacherDao.deleteTeacher(info),
+                    "删除教师信息失败, 请检查!"
+            );
+        }
 
         return true;
     }
@@ -92,49 +94,57 @@ public class TeacherService {
 
         List<Teacher> teacherList = getTeacher(oldInfo);
 
-        for(Teacher teacher : teacherList){
-            updateOtherInfo(teacher.getId(), newInfo);
-        }
+        if (teacherList.size() > 0) {
+            for (Teacher teacher : teacherList) {
+                updateOtherInfo(teacher.getId(), newInfo);
+            }
 
-        ThrowExceptionUtil.throwRollBackException(
-                teacherDao.updateTeacher(newInfo, oldInfo),
-                "更新教室信息失败, 请检查!"
-        );
+            ThrowExceptionUtil.throwRollBackException(
+                    teacherDao.updateTeacher(newInfo, oldInfo),
+                    "更新教师信息失败, 请检查!"
+            );
+        }
         return true;
     }
 
-    public void clearTeacherInfo(int id){
+    public void clearTeacherInfo(int id) {
 
         Teacher teacherById = getTeacherById(id);
 
-        // 删除学生教师关系
-        ThrowExceptionUtil.throwRollBackException(
-                studentTeacherService.deleteStudentTeacherUseInfo(
-                        new StudentTeacher(0, id, teacherById.getSchoolName())),
-                "删除教师时, 删除学生教师关联失败, 请检查!");
-        // 删除班级教师关联关系
-        ThrowExceptionUtil.throwRollBackException(
-                classGradeTeacherService.deleteClassGradeTeacherUseInfo(
-                        new ClassGradeTeacher(0, 0, id, teacherById.getSchoolName())),
-                "删除教师信息时, 删除班级教师关联关系失败, 请检查!"
-        );
+        if (studentTeacherService.getStudentTeacher(new StudentTeacher(0, id, teacherById.getSchoolName())).size() > 0) {
+            // 删除学生教师关系
+            ThrowExceptionUtil.throwRollBackException(
+                    studentTeacherService.deleteStudentTeacherUseInfo(
+                            new StudentTeacher(0, id, teacherById.getSchoolName())),
+                    "删除教师时, 删除学生教师关联失败, 请检查!");
+        }
+
+        if (classGradeTeacherService.getClassGradeTeacher(new ClassGradeTeacher(0, 0, id, teacherById.getSchoolName())).size() > 0) {
+            // 删除班级教师关联关系
+            ThrowExceptionUtil.throwRollBackException(
+                    classGradeTeacherService.deleteClassGradeTeacherUseInfo(
+                            new ClassGradeTeacher(0, 0, id, teacherById.getSchoolName())),
+                    "删除教师信息时, 删除班级教师关联关系失败, 请检查!"
+            );
+        }
 
         // 删除授课信息表记录
-        ThrowExceptionUtil.throwRollBackException(
-                teachCourseInfoService.deleteTeachCourseUseInfo(
-                        new TeachCourseInfo(0, id)),
-                "删除教师信息时, 删除班级教师关系失败, 请检查!"
-        );
+        TeachCourseInfo teachCourseInfo = new TeachCourseInfo();
+        teachCourseInfo.setTeacherId(id);
+        if (teachCourseInfoService.getTeachCourseInfo(teachCourseInfo).size() > 0) {
+            ThrowExceptionUtil.throwRollBackException(
+                    teachCourseInfoService.deleteTeachCourseUseInfo(
+                            new TeachCourseInfo(0, id)),
+                    "删除教师信息时, 删除授课信息失败, 请检查!"
+            );
+        }
     }
-    
-    public void updateOtherInfo(int id , Teacher teacherInfo){
+
+    public void updateOtherInfo(int id, Teacher teacherInfo) {
 
         String newSchoolName = teacherInfo.getSchoolName();
         String newTeacherName = teacherInfo.getName();
         String newTeachCourseName = teacherInfo.getTeachCourseName();
-
-        // 获取教师原信息
-        Teacher oldTeacherInfo = getTeacherById(id);
 
         TeachCourseInfo newTeachCourseInfo = new TeachCourseInfo();
         newTeachCourseInfo.setSchoolName(newSchoolName);
@@ -143,8 +153,11 @@ public class TeacherService {
         TeachCourseInfo oldTeachCourseInfo = new TeachCourseInfo();
         oldTeachCourseInfo.setTeacherId(id);
 
-        ThrowExceptionUtil.throwRollBackException(
-                teachCourseInfoService.updateClassGrade(newTeachCourseInfo, oldTeachCourseInfo),
-                "更新教师信息时, 更新授课信息失败, 请检查!");
+        if (teachCourseInfoService.getTeachCourseInfo(oldTeachCourseInfo).size() > 0) {
+
+            ThrowExceptionUtil.throwRollBackException(
+                    teachCourseInfoService.updateClassGrade(newTeachCourseInfo, oldTeachCourseInfo),
+                    "更新教师信息时, 更新授课信息失败, 请检查!");
+        }
     }
 }

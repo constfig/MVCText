@@ -85,10 +85,12 @@ public class ClassroomService {
             clearClassroomInfo(info.getId());
         }
 
-        ThrowExceptionUtil.throwRollBackException(
-                classroomDao.deleteClassroom(info),
-                "删除教室信息失败, 请检查!"
-        );
+        if (classroomList.size() > 0) {
+            ThrowExceptionUtil.throwRollBackException(
+                    classroomDao.deleteClassroom(info),
+                    "删除教室信息失败, 请检查!"
+            );
+        }
 
         return true;
     }
@@ -98,13 +100,9 @@ public class ClassroomService {
         // 当更新教室号时进行级联更新
         if (newInfo.getRealId() != null && !"".equals(newInfo.getRealId()) &&
                 !newInfo.getRealId().equals(oldInfo.getRealId())) {
-            if (newInfo.getId() != -1) {
-                List<Classroom> classroomList = getClassroom(oldInfo);
-                for (Classroom c : classroomList) {
-                    updateOtherInfo(c.getId(), newInfo);
-                }
-            } else {
-                newInfo.setId(0);
+            List<Classroom> classroomList = getClassroom(oldInfo);
+            for (Classroom c : classroomList) {
+                updateOtherInfo(c.getId(), newInfo);
             }
         }
 
@@ -142,7 +140,7 @@ public class ClassroomService {
         targetStudent.setSchoolName(targetSchoolName);
         targetStudent.setClassroomRealId(targetRealId);
         // 更新
-        studentService.updateStudentCommon(newStudentInfo, targetStudent);
+        studentService.updateStudentCommonNotCascade(newStudentInfo, targetStudent);
 
         // 更新授课信息的教室号
         TeachCourseInfo newTeachCourseInfo = new TeachCourseInfo();
@@ -183,16 +181,23 @@ public class ClassroomService {
         targetStudent.setSchoolName(targetSchoolName);
         targetStudent.setClassroomRealId(targetRealId);
         // 更新
-        studentService.updateStudentCommon(newStudentInfo, targetStudent);
+        studentService.updateStudentCommonNotCascade(newStudentInfo, targetStudent);
 
-        // 更新授课信息的教室号
+/*        // 更新授课信息的教室号
         TeachCourseInfo newTeachCourseInfo = new TeachCourseInfo();
         newTeachCourseInfo.setClassroomRealId("");
         TeachCourseInfo targetTeachCourseInfo = new TeachCourseInfo();
         targetTeachCourseInfo.setSchoolName(targetSchoolName);
         targetTeachCourseInfo.setClassroomRealId(targetRealId);
         // 更新
-        teachCourseInfoService.updateClassGrade(newTeachCourseInfo, targetTeachCourseInfo);
+        teachCourseInfoService.updateClassGrade(newTeachCourseInfo, targetTeachCourseInfo);*/
+
+        // 删除授课信息
+        TeachCourseInfo targetTeachCourseInfo = new TeachCourseInfo();
+        targetTeachCourseInfo.setSchoolName(targetSchoolName);
+        targetTeachCourseInfo.setClassroomRealId(targetRealId);
+        // 更新
+        teachCourseInfoService.deleteTeachCourseUseInfo(targetTeachCourseInfo);
 
         // 更新班级中的教室号
         ClassGrade newClassGradeInfo = new ClassGrade();
@@ -212,7 +217,6 @@ public class ClassroomService {
      * @return 是否更新成功
      */
     public boolean updateClassroomNotCascading(Classroom newInfo, Classroom oldInfo) {
-
         return classroomDao.updateClassroomCommon(newInfo, oldInfo);
     }
 }

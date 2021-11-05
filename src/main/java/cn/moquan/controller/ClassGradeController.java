@@ -90,6 +90,8 @@ public class ClassGradeController {
 
         CommonResponseBody responseBody;
 
+        System.out.println(classGradeUtil);
+
         try {
             responseBody = classGradeService.updateClassGrade(classGradeUtil.getInfo(), classGradeUtil.getIdList());
         } catch (RollBackException e) {

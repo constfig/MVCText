@@ -107,7 +107,7 @@
                 And teacher_id = #{teacherId}
             </if>
             <if test="studentId != 0">
-                And studente_id = #{studenteId}
+                And student_id = #{studentId}
             </if>
     </delete>
 

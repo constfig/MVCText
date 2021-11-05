@@ -59,20 +59,20 @@ public class ClassGradeTeacherController {
         return responseBody;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/deleteById", method = RequestMethod.DELETE)
-    public CommonResponseBody deleteClassGradeTeacherById(@RequestBody BeanUtil<ClassGradeTeacher> classGradeTeacherBeanUtil){
-
-        CommonResponseBody responseBody;
-
-        if(classGradeTeacherService.deleteClassGradeTeacherById(classGradeTeacherBeanUtil.getIdList())){
-            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
-        }else{
-            responseBody = new CommonResponseBody(StatusNumber.FAILED);
-        }
-
-        return responseBody;
-    }
+//    @ResponseBody
+//    @RequestMapping(value = "/deleteById", method = RequestMethod.DELETE)
+//    public CommonResponseBody deleteClassGradeTeacherById(@RequestBody BeanUtil<ClassGradeTeacher> classGradeTeacherBeanUtil){
+//
+//        CommonResponseBody responseBody;
+//
+//        if(classGradeTeacherService.deleteClassGradeTeacherById(classGradeTeacherBeanUtil.getIdList())){
+//            responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
+//        }else{
+//            responseBody = new CommonResponseBody(StatusNumber.FAILED);
+//        }
+//
+//        return responseBody;
+//    }
 
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
@@ -80,8 +80,9 @@ public class ClassGradeTeacherController {
 
         CommonResponseBody responseBody;
 
-        if(classGradeTeacherService.deleteClassGradeTeachers(
-                classGradeTeacherBeanUtil.getInfo(), classGradeTeacherBeanUtil.getIdList())){
+        System.out.println(classGradeTeacherBeanUtil.getInfo());
+
+        if(classGradeTeacherService.deleteClassGradeTeacherUseInfo(classGradeTeacherBeanUtil.getInfo())){
             responseBody = new CommonResponseBody(StatusNumber.SUCCESS);
         }else{
             responseBody = new CommonResponseBody(StatusNumber.FAILED);
