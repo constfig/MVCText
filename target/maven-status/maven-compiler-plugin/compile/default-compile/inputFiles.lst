@@ -4,6 +4,7 @@ G:\MVCTest\src\main\java\cn\moquan\bean\Classroom.java
 G:\MVCTest\src\main\java\cn\moquan\service\ClassGradeTeacherService.java
 G:\MVCTest\src\main\java\cn\moquan\controller\DefaultController.java
 G:\MVCTest\src\main\java\cn\moquan\service\SchoolService.java
+G:\MVCTest\src\main\java\cn\moquan\test\IntDefaultValue.java
 G:\MVCTest\src\main\java\cn\moquan\util\CommonResponseBody.java
 G:\MVCTest\src\main\java\cn\moquan\util\RollBackException.java
 G:\MVCTest\src\main\java\cn\moquan\service\StudentService.java
@@ -19,6 +20,8 @@ G:\MVCTest\src\main\java\cn\moquan\util\ThrowExceptionUtil.java
 G:\MVCTest\src\main\java\cn\moquan\controller\StudentTeacherController.java
 G:\MVCTest\src\main\java\cn\moquan\bean\Student.java
 G:\MVCTest\src\main\java\cn\moquan\bean\ClassGradeTeacher.java
+G:\MVCTest\src\main\java\cn\moquan\service\CommonService.java
+G:\MVCTest\src\main\java\cn\moquan\test\TestMain.java
 G:\MVCTest\src\main\java\cn\moquan\util\StatusNumber.java
 G:\MVCTest\src\main\java\cn\moquan\controller\TeachCourseInfoController.java
 G:\MVCTest\src\main\java\cn\moquan\bean\ClassGrade.java
@@ -34,6 +37,7 @@ G:\MVCTest\src\main\java\cn\moquan\dao\TeachCourseInfoDao.java
 G:\MVCTest\src\main\java\cn\moquan\dao\ClassGradeDao.java
 G:\MVCTest\src\main\java\cn\moquan\controller\TeacherController.java
 G:\MVCTest\src\main\java\cn\moquan\bean\BeanUtil.java
+G:\MVCTest\src\main\java\cn\moquan\dao\DaoCommon.java
 G:\MVCTest\src\main\java\cn\moquan\bean\Teacher.java
 G:\MVCTest\src\main\java\cn\moquan\service\StudentTeacherService.java
 G:\MVCTest\src\main\java\cn\moquan\service\TeacherService.java
