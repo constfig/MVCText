@@ -69,7 +69,7 @@ public class ClassGradeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public CommonResponseBody deleteClassGrade(@RequestBody BeanUtil<ClassGrade> classGradeBeanUtil){
 
         CommonResponseBody responseBody;

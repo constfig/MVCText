@@ -75,7 +75,7 @@ public class TeachCourseInfoController {
     }
     
     @ResponseBody
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public CommonResponseBody deleteTeachCourseInfo(@RequestBody BeanUtil<Classroom> classroomBeanUtil){
     
         CommonResponseBody responseBody;
