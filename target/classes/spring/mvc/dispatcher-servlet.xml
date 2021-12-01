@@ -43,4 +43,14 @@
         <property name="defaultEncoding" value="utf-8"/>
     </bean>
 
+    <!--
+        跨域问题解决
+    -->
+    <mvc:cors>
+        <mvc:mapping path="/**"
+            allowed-origins="*"
+            allowed-methods="GET,POST,PUT,DELETE"
+            max-age="3600"/>
+    </mvc:cors>
+
 </beans>
